@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
+        <div class="contenedor">
+          <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
+          <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+        </div>
+      </div>
+    </div>
+    <ion-card-content>
+      <div class="faq-wrap">
+        <div class="row"  *ngIf="!courses.length">
+          <div class="col-lg-12 col-md-12 col-sm-12 mt-3 text-center">
+            <p class="text-muted">No se encontró registros de diplomados </p>
+          </div>
+        </div>
+        <div class="row"  *ngIf="courses.length">
+          <div class="col-lg-12 col-md-12 col-sm-12 alert-sec" *ngFor="let item of courses; let i = index">
+            <div class="bg-img" style="background-image: url({{item.course.detail.other_description.image_bg}})">
+              <div class="row">
+                  <div class="col-lg-7 col-md-7 col-sm-12">
+                    <div class="body-bottom">
+                      <h6 class=""><b class="bg-oea">{{item.course.courses_name}}</b></h6>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 col-md-5 col-sm-12 text-center ">
+                    <div class="body-bottom">
+                      <br>
+                      <br>
+                      <button class="btn btn-oea" (click)="navDetailDiplomate(item.course.courses_code, item.course.detail.other_description.image_bg, item.course.courses_name)" *ngIf="item.is_active">
+                        Ingresar
+                      </button>
+                      <button  class="btn btn-oea" *ngIf="!item.is_active">
+                        Terminado
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

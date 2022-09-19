@@ -1,0 +1,241 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mis Pagos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
+      <div class="contenedor">
+        <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
+        <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+        <div class="centrado">
+          <h3> <b class="bg-oea">{{course_name}}</b></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-card>
+    <ion-accordion-group expand="inset">
+      <ion-accordion *ngFor="let diplomado of diplomados; index as id" value="{{diplomado.code_course}}">
+        <ion-item (click)="listaccordion(diplomado.code_course)" slot="header" color="{{diplomado.bg_color}}">
+          <ion-label>{{diplomado.course}}</ion-label>
+        </ion-item>
+        <div *ngIf="diplomado.is_paid==true" class="ion-padding" slot="content">
+          <div class="center">
+            <ion-label>ESTAS AL DIA EN TUS PAGOS 😄 ✅</ion-label>
+          </div>
+          <ion-grid class="ion-margin">
+            <ion-row>
+              <ion-col>Cuota</ion-col>
+              <ion-col>Fecha pago</ion-col>
+              <ion-col>Estado</ion-col>
+              <ion-col>Pago Cuota</ion-col>
+              <ion-col>Pagar</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let valdetail of detail_course, index as id">
+              <ion-col>{{valdetail['num_cuota']}}</ion-col>
+              <ion-col>{{valdetail['fecha_vencimiento']*1000 | date:'d MMMM, y'}}</ion-col>
+              <ion-col [ngClass]="valdetail['is_paid'] ? 'text-success' : 'text-danger'">
+                {{valdetail['is_paid'] ? 'Pagado' : 'Expirado'}}
+              </ion-col>
+              <ion-col>S/{{valdetail['monto_pagar']}}</ion-col>
+              <ion-col>
+                <div *ngIf="!valdetail['is_paid'] === true">
+                  <input type="checkbox"
+                         [checked]="checkbox[id]['is_checked']"
+                         (change)="updateCheckbox( id, $event)"
+                         [disabled]="checkbox[id]['is_disabled']" >
+                </div>
+                <div *ngIf="valdetail['is_paid'] === true">
+                  <p>
+                    😄 ✅
+                  </p>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col></ion-col>
+              <ion-col></ion-col>
+              <ion-col>Saldo final:</ion-col>
+              <ion-col>S/ {{total2}}</ion-col>
+              <ion-col>
+                <button *ngIf="is_pay"
+                        class="btn btn-primary text-white text-center">
+                  <small>Pagar</small>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <div *ngIf="diplomado.is_paid==false" class="ion-padding" slot="content">
+          <div class="center">
+            <ion-label>CRONOGRAMA DE PAGOS 😄 ✅</ion-label>
+            <h6 *ngIf="cuota" [ngClass]="cuota['is_cuota'] ? 'text-dark ' : 'text-dark '">
+              Tipo de pago: {{cuota['is_cuota'] ? 'Mensualidades' : 'Contado'}}
+            </h6>
+          </div>
+          <ion-grid class="ion-margin">
+            <ion-row>
+              <ion-col size="3">Cuota</ion-col>
+              <ion-col size="3">Fecha pago</ion-col>
+              <ion-col size="2">Estado</ion-col>
+              <ion-col size="2">Pago Cuota</ion-col>
+              <ion-col size="2">Pagar</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let valdetail of detail_course, index as id">
+              <ion-col size="3">{{valdetail['num_cuota']}}</ion-col>
+              <ion-col size="3">{{valdetail['fecha_vencimiento']*1000 | date:'d MMMM, y'}}</ion-col>
+              <ion-col size="2" [ngClass]="valdetail['is_paid'] ? 'text-success' : 'text-danger'">
+                {{valdetail['is_paid'] ? 'Pagado' : 'Expirado'}}
+              </ion-col>
+              <ion-col size="2">S/{{valdetail['monto_pagar']}}</ion-col>
+              <ion-col size="2">
+                <div *ngIf="!valdetail['is_paid'] === true">
+                  <input type="checkbox"
+                         [checked]="checkbox[id]['is_checked']"
+                         (change)="updateCheckbox( id, $event)"
+                         [disabled]="checkbox[id]['is_disabled']" >
+                </div>
+                <div *ngIf="valdetail['is_paid'] === true">
+                  <p>
+                    😄 ✅
+                  </p>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="3"> Saldo final:</ion-col>
+              <ion-col size="5">S/ {{total2}}</ion-col>
+              <ion-col size="4">
+                <ion-button (click)="setOpen(true,diplomado.code_course)" class="button" expand="block" *ngIf="is_pay">
+                  <small>Pagar</small>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+    <ion-modal [isOpen]="isModalOpen">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Pago Efectivo</ion-title><!--
+            <ion-buttons slot="end">
+              <ion-button (click)="setOpenPay(true)" [strong]="true">Confirm</ion-button>
+            </ion-buttons>-->
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <form [formGroup]="formExcPay" (ngSubmit)="exectPayment()" *ngIf="ocultar">
+            <div *ngIf="optionCard">
+              <div class="col-lg-12 col-md-12 col-sm-12 my-3" role="alert">
+                <div class="alert alert-primary new">
+                  <div *ngFor="let c of checkbox" class="my-2">
+                    <h6 *ngIf="c.is_checked==1" class="text-dark"><b> Mensualidad</b> Nº {{c.id+1}}</h6>
+                  </div>
+                  <ion-label class="mx-1">TOTAL A PAGAR: <b>S/ {{monto_final}}.00</b></ion-label>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12 col-lg-12 mb-3">
+                <div class="form-group form-check form-switch">
+                  <br>
+                  <input class="form-check-input" (change)="optionFacture($event)"
+                             type="checkbox" formControlName="is_factura">
+                  <ion-label>
+                    Solicitar Factura
+                  </ion-label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-12 col-xl-12 text-center mb-2">
+                <div class="form-group" *ngIf="mostrarSelect">
+                  <ion-input  type="text"  formControlName="ruc"
+                          (keyup)="getInfoByRuc($event)"
+                          class="form-control text-secondary"
+                          onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
+                              placeholder="Ingrese Nº RUC" name="user_ruc" ></ion-input>
+                  <div *ngIf="formExcPay.controls['ruc'].invalid && (formExcPay.controls['ruc'].dirty || formExcPay.controls['ruc'].touched)" >
+                    <div *ngIf="formExcPay.controls['ruc'].errors.required">
+                      <small class="text-danger">Por favor ingrese su número de RUC</small>
+                    </div>
+                    <div *ngIf="formExcPay.controls['ruc'].errors.maxlength">
+                      <small class="text-danger">Excediste el número máximo de caracteres</small>
+                    </div>
+                    <div *ngIf="formExcPay.controls['ruc'].errors.minlength">
+                      <small class="text-danger">Debe contener como mínimo 11 caracteres</small>
+                    </div>
+                  </div>
+                  <div *ngIf="nameruc">
+                    <small><b>{{nameruc}}</b></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="modal-footer row">
+              <div class="col-lg-6 col-md-6 m-auto center">
+                <ion-button type="submit" class="btn btn-primary btn-block text-white">
+                  {{btnPay}} {{monto_final}}
+                </ion-button>
+              </div>
+            </div>
+          </form>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <ion-modal id="modal" #modal [isOpen]="isModalPay" trigger="open-modal">
+      <ng-template>
+        <ion-content>
+          <ion-toolbar>
+            <ion-title>Código de Pago</ion-title>
+            <ion-buttons slot="end">
+              <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+          <ion-content *ngIf="allmatricula">
+            <ion-row class="center">
+              <ion-col size="12">
+                <h3>¡Estas a punto de finalizar tu matrícula!</h3>
+              </ion-col>
+              <ion-col size="2"></ion-col>
+              <ion-col size="8">
+                <ion-row class="center">
+                  <ion-col size="12">
+                    <ion-label>Empresa: OEA EDUCACIÓN <br> Servicio: Pago Matrícula</ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <p>Código de Pago</p>
+                    <h4>{{allmatricula.payment_code}}</h4>
+                    <button class="copiar" ng-click="displayTooltip = true" (click)="copyCodigo()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
+                        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
+                      </svg>
+                      Copiar
+                    </button>
+                  </ion-col>
+                  <ion-col size="6">
+                    <p>Monto a Pagar</p>
+                    <h4>S/ {{monto}}.00</h4>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="2"></ion-col>
+              <ion-col size="12">
+                <ion-label>⏱️ Págalo antes del {{allmatricula['expiration_date']*1000 | date:'d MMMM, y, h:mm:ss a'}}</ion-label>
+              </ion-col>
+              <img src="https://theme.zdassets.com/theme_assets/170263/dcb41d3f8f0e08477f557d4ed583bb0db69578c3.png" alt="">
+            </ion-row>
+          </ion-content>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </ion-card>
+</ion-content>

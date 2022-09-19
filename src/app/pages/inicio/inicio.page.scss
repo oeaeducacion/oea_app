@@ -1,0 +1,39 @@
+ion-card{
+    height: 95%;
+}
+
+$white:    #fff !default;
+.body-bottom {
+    h6 {
+        color: $white;
+        margin-bottom: 8px;
+    }
+    span {
+        color: rgba($white, 0.8);
+    }
+    text-align: end;
+    margin-right: 10px;
+}
+.bg-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    filter: brightness(1);
+    border-radius: 5px;
+}
+.btn-oea {
+    background: #fd5000;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.bg-oea{
+    position: absolute;
+    font-size: 2.5vw;
+    color: white;
+    top: 20%;
+    left: 50%;
+    margin-right: 10px;
+}

@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mis Notas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
+      <div class="contenedor">
+        <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
+        <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+        <div class="centrado">
+          <h3> <b class="bg-oea">{{course_name}}</b></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-card>
+    <ion-card class="card">
+      <div class="center">
+        <h2 id="nota1">
+          <strong style="font-weight: bold;">Nota Final (Módulo)= </strong>
+          Asistencia *20% <span style="font-weight: bold;">+</span> Nota Final *80%
+        </h2>
+      </div>
+    </ion-card>
+    <ion-accordion-group expand="inset">
+      <ion-accordion *ngFor="let course of courses" value="{{course.course.courses_name}}">
+        <ion-item (click)="getModules(course.course.courses_code)" slot="header" color="primary">
+          <ion-label>{{course.course.courses_name}}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-accordion-group expand="inset">
+            <ion-accordion *ngFor="let item of modules" value="{{item.module_number}}">
+              <ion-item (click)="getRecords(item.module_number)" slot="header" color="light">
+                <ion-label>{{item.module_name}}</ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content" color="dark">
+                <div class="centro">
+                  <ion-row *ngFor="let record of records">
+                    <ion-col>
+                      <p style="font-size: 13px; font-family: 'Century Gothic';">{{record.name_evaluacion}}</p>
+                    </ion-col>
+                    <ion-col>
+                      <p>
+                        <button type="button" class="btn-subnota" style="width: 55px; color: black;padding: 0px;text-align: center;" readonly>
+                          {{record.nota}}
+                        </button>
+                      </p>
+                    </ion-col>
+                  </ion-row>
+                </div>
+              </div>
+            </ion-accordion>
+            <br>
+            <div style="display: flex; background-color: #fd5000; border-radius: 5px">
+              <div class="">
+                <label class="" style="font-size: 12px; color: white; margin-left: 10px">PROMEDIO FINAL</label>
+              </div>
+              <div>
+                <label class="" type="text" style="padding-right: 20px;
+                  margin-left: 60px;width: auto; background-color: white;color: white;">
+                  HOlaaaaa
+                </label>
+              </div>
+            </div>
+          </ion-accordion-group>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </ion-card>
+</ion-content>

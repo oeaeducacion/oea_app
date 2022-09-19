@@ -1,0 +1,42 @@
+img{
+  width: 100%;
+  filter: brightness(0.8);
+  border-radius: 10px;
+}
+.contenedor{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+.texto-encima{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.centrado{
+  position: absolute;
+  top: -15%;
+  left: 45%;
+}
+.centro{
+  text-align: center;
+}
+.bg-oea{
+  font-size: 3vw;
+  color: white;
+}
+.card-det-modu {
+  border: 0px, 0px, 0px, 9px ;
+  border-radius: 30px;
+}
+.parpadea {
+  animation-name: parpadeo;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
