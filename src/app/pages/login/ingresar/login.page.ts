@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder
 } from '@angular/forms';
+import * as CryptoJS from 'crypto-js';
 import { AlertController, NavController } from '@ionic/angular';
-import {LoginuserService} from './service/loginuser.service';
+import {LoginuserService} from '../service/loginuser.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,11 @@ import {LoginuserService} from './service/loginuser.service';
 export class LoginPage implements OnInit {
 
   formularioLogin: FormGroup;
+
+  public show: boolean = false;
+  navigate: any;
+  roles: any;
+  private secretrol = 'K56QSxGeKImwBRmiY';
 
   constructor(public fb: FormBuilder,
               public alertController: AlertController,
@@ -35,6 +41,10 @@ export class LoginPage implements OnInit {
     const  tokenAuth = localStorage.getItem('token');
     if (tokenAuth != null){
       const rus = localStorage.getItem('rus');
+      if(rus){
+        this.CryptoJSAesDecrypt(this.secretrol, rus);
+        return this.navCtrl.navigateRoot('menu/inicio');
+      }
     }
   }
 
@@ -50,15 +60,18 @@ export class LoginPage implements OnInit {
       if (resp.success === true) {
         localStorage.setItem('token', resp.token);
         this.loginuserService.setLoggedIn(true);
-        localStorage.setItem('ingresado', 'true');
-        this.navCtrl.navigateRoot('menu/inicio');
+        if (resp['user']['is_superuser']){
+          this.roles = 'is_superuser'
+        }
+        let rol = this.CryptoJSAesEncrypt(this.secretrol, this.roles);
+        localStorage.setItem('rus',rol);
+        return this.navCtrl.navigateRoot('menu/inicio');
       } else {
         const alert = await this.alertController.create({
           header: 'Datos incorrectos',
           message: 'Los datos que ingresaste son incorrectos.',
           buttons: ['Aceptar']
         });
-
         await alert.present();
       }
     }, async error => {
@@ -94,4 +107,35 @@ export class LoginPage implements OnInit {
     }
   }
 
+  showPassword() {
+    this.show = !this.show;
+  }
+
+  CryptoJSAesEncrypt(passphrase, plaintext) {
+
+    var salt = CryptoJS.lib.WordArray.random(256);
+    var iv = CryptoJS.lib.WordArray.random(16);
+
+    var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999 });
+
+    var encrypted = CryptoJS.AES.encrypt(plaintext, key, {iv: iv});
+
+    var data = {
+      ciphertext : CryptoJS.enc.Base64.stringify(encrypted.ciphertext),
+      salt : CryptoJS.enc.Hex.stringify(salt),
+      iv : CryptoJS.enc.Hex.stringify(iv)
+    };
+
+    return JSON.stringify(data);
+  }
+
+  CryptoJSAesDecrypt(passphrase, encryptedJsonString) {
+    var objJson = JSON.parse(encryptedJsonString);
+    var encrypted = objJson.ciphertext;
+    var salt = CryptoJS.enc.Hex.parse(objJson.salt);
+    var iv = CryptoJS.enc.Hex.parse(objJson.iv);
+    var key = CryptoJS.PBKDF2(passphrase, salt, {hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
+    var decrypted = CryptoJS.AES.decrypt(encrypted, key, {iv: iv});
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
 }

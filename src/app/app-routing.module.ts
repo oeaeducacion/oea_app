@@ -23,11 +23,7 @@ const routes: Routes = [
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule),
     canActivate: [IngresadoGuard]
-  },/*
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  }*/
+  },
 ];
 
 @NgModule({
