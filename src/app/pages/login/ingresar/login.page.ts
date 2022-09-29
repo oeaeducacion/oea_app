@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -15,6 +15,9 @@ import {LoginuserService} from '../service/loginuser.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  @ViewChild('passwordEyeRegister') passwordEye;
+  passwordTypeInput  =  'password';
+  iconpassword  =  'eye-off';
 
   formularioLogin: FormGroup;
 
@@ -60,12 +63,10 @@ export class LoginPage implements OnInit {
       if (resp.success === true) {
         localStorage.setItem('token', resp.token);
         this.loginuserService.setLoggedIn(true);
-        if (resp['user']['is_superuser']){
-          this.roles = 'is_superuser'
-        }
         let rol = this.CryptoJSAesEncrypt(this.secretrol, this.roles);
         localStorage.setItem('rus',rol);
-        return this.navCtrl.navigateRoot('menu/inicio');
+        localStorage.setItem('ingresado', 'true');
+        this.navCtrl.navigateRoot('menu/inicio');
       } else {
         const alert = await this.alertController.create({
           header: 'Datos incorrectos',
@@ -137,5 +138,11 @@ export class LoginPage implements OnInit {
     var key = CryptoJS.PBKDF2(passphrase, salt, {hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
     var decrypted = CryptoJS.AES.decrypt(encrypted, key, {iv: iv});
     return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+  togglePasswordMode() {
+    this.passwordTypeInput = this.passwordTypeInput === 'text' ? 'password' : 'text';
+    this.iconpassword = this.iconpassword === 'eye-off' ? 'eye' : 'eye-off';
+    this.passwordEye.el.setFocus();
   }
 }

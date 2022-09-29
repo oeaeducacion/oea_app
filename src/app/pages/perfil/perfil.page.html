@@ -1,3 +1,4 @@
+<!--
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
@@ -13,7 +14,7 @@
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
       <div class="contenedor">
         <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
-        <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+        &lt;!&ndash;https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png&ndash;&gt;
         <div class="centrado">
           <h3> <b class="bg-oea">{{course_name}}</b></h3>
         </div>
@@ -154,4 +155,27 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+</ion-content>
+-->
+<ion-content [fullscreen]="true" slot="fixed" >
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg?w=2000" alt="">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="user-meta ion-text-center">
+        <h3 class="playername">ROBINSON ESTRELLA</h3>
+        <h5 class="country">PERÚ</h5>
+        <h6 class="ranking">Current ranking: <ion-chip>
+          <ion-label>2</ion-label>
+        </ion-chip>
+        </h6>
+      </div>
+      <ion-button expand="full" color="primary">http://rogerfederer.com</ion-button>
+      <ion-button expand="full" color="secondary">@RogerFederer on Twitter</ion-button>
+      <ion-button expand="full" color="secondary">View profile at ATP</ion-button>
+    </div>
+  </div>
 </ion-content>

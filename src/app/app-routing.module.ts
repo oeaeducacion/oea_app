@@ -24,6 +24,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule),
     canActivate: [IngresadoGuard]
   },
+  {
+    path: 'restablecer',
+    loadChildren: () => import('./pages/restablecer/restablecer.module').then( m => m.RestablecerPageModule)
+  },
+  {
+    path: 'restablecer-password/:code',
+    loadChildren: () => import('./pages/restablecer-password/restablecer-password.module').then( m => m.RestablecerPasswordPageModule)
+  },
 ];
 
 @NgModule({

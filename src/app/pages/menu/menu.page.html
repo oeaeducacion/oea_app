@@ -1,5 +1,6 @@
 <ion-split-pane contentId="main">
-  <ion-menu side="start" menuId="first" contentId="main">
+  <!--MENU-->
+  <!--<ion-menu side="start" menuId="first" contentId="main">
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>
@@ -30,7 +31,18 @@
         </ion-menu-toggle>
       </ion-list>
     </ion-content>
-  </ion-menu>
-
+  </ion-menu>-->
   <ion-router-outlet id="main" main></ion-router-outlet>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button [tab]="pagina.url" *ngFor="let pagina of paginas; let i = index">
+        <ion-icon [name]="pagina.icono + '-outline'"></ion-icon>
+        <ion-label>{{pagina.titulo}}</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="salir()">
+        <ion-icon [name]="'exit-outline'"></ion-icon>
+        <ion-label>Salir</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-split-pane>

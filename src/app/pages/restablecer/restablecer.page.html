@@ -1,0 +1,35 @@
+<ion-content>
+  <div class="login-section ion-padding">
+    <div class="heading ion-padding ion-text-center">
+      <a routerLink='/'>
+        <img src="https://oea-files.s3.amazonaws.com/web/oea+onu_.png" alt="looginpage">
+      </a>
+      <h1>RECUPERAR CONTRASEÑA</h1>
+    </div>
+    <div class="ion-padding login-form">
+      <form [formGroup]="formularioRestablecer">
+        <div class="form-input">
+          <ion-item>
+            <ion-label position="floating">Ingrese DNI</ion-label>
+            <ion-input placeholder="" formControlName="dni" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+              <ion-icon name="person-outline"></ion-icon>
+            </ion-input>
+          </ion-item>
+        </div>
+        <div class="ion-text-center" *ngIf="formularioRestablecer.controls['dni'].invalid &&
+              (formularioRestablecer.controls['dni'].dirty || formularioRestablecer.controls['dni'].touched)">
+          <div *ngIf="formularioRestablecer.controls['dni'].errors.required">
+            <small style="color: red">Por favor ingrese su DNI</small>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="action-buttons ion-padding">
+      <ion-button size="large" class="login-button" [disabled]="!formularioRestablecer.valid" (click)="recuperar()">Enviar</ion-button>
+    </div>
+    <div class="ion-text-center">
+      <p style="color: #7b7b7b">Ya tienes una cuenta?</p>
+      <a routerLink="/login" style="margin-top: 15px">Inicia Sesión</a>
+    </div>
+  </div>
+</ion-content>

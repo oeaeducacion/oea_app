@@ -13,22 +13,22 @@ export class MenuPage implements OnInit {
   paginas = [
     {
       titulo: 'Inicio',
-      url: '/menu/inicio',
+      url: 'inicio',
       icono: 'home'
     },
     {
       titulo: 'Mis Notas',
-      url: '/menu/notas',
+      url: 'notas',
       icono: 'clipboard'
     },
     {
       titulo: 'Mis Pagos',
-      url: '/menu/pagos',
+      url: 'pagos',
       icono: 'card'
     },
     {
       titulo: 'Perfil',
-      url: '/menu/perfil',
+      url: 'perfil',
       icono: 'person'
     }
   ]
@@ -40,6 +40,7 @@ export class MenuPage implements OnInit {
   }
 
   cambiarIndiceSeleccionado(i){
+    console.log('12')
     this.indiceSeleccionado = i;
   }
 
@@ -65,5 +66,4 @@ export class MenuPage implements OnInit {
 
     await alert.present();
   }
-
 }

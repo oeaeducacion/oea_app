@@ -1,19 +1,83 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Inicio</ion-title>
-  </ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-item lines="none">
+    <ion-menu-button slot="start" color="light"></ion-menu-button>
+    <ion-avatar slot="end">
+      <img src="data:image/png;base64,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">
+    </ion-avatar>
+  </ion-item>
 </ion-header>
+<ion-content [fullscreen]="true" color="light">
+  <div class="main-header">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="9">
+          <ion-label>
+            <ion-note color="light" class="ion-margin-start">
+              <b>ROBINSON ESTRELLA AGUILAR</b>
+            </ion-note>
+            <p>
+              <ion-chip color="light">
+                <ion-label class="ion-text-wrap">
+                  DNI 71811076
+                </ion-label>
+              </ion-chip>
+            </p>
+          </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button color="light" size="small">
+            <ion-text color="primary">Clase</ion-text>
+            <ion-icon name="caret-forward-circle-outline" color="primary" slot="end"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
 
-<ion-content>
-  <ion-card>
+      <ion-row class="ion-margin-horizontal ion-margin-top">
+        <ion-col>
+          <ion-label color="light" style="font-size: 2vh">
+            <!--<b>OPCIONES</b>-->
+          </ion-label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-margin-horizontal">
+        <ion-col *ngFor="let item of features" size="6">
+          <ion-card class="ion-text-center">
+            <ion-card-header>
+              <div align="center">
+                <ion-thumbnail>
+                  <img [src]="item?.src"/>
+                </ion-thumbnail>
+              </div>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-label color="dark">{{item?.name}}</ion-label>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label><b>Todos Los Diplomados</b></ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="cash" color="success"></ion-icon>
+          <ion-label>
+            DE: AUDITORIA EN SALUD
+            <p>3:00 PM</p>
+          </ion-label>
+          <ion-text slot="end" color="danger"><b>R1200</b></ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-grid>
+  </div>
+<!--  <ion-card>
     <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-12  img-fondo">
         <div class="contenedor">
           <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
-          <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+          &lt;!&ndash;https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png&ndash;&gt;
         </div>
       </div>
     </div>
@@ -51,5 +115,5 @@
         </div>
       </div>
     </ion-card-content>
-  </ion-card>
+  </ion-card>-->
 </ion-content>

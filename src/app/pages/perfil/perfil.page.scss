@@ -1,0 +1,50 @@
+ion-content {
+  --background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(255, 204, 171, 0.1)),
+  url("../../../assets/image/fondo3.jpg") no-repeat;
+}
+.card {
+  margin: 0 auto;
+
+  .header {
+    height: 200px;
+    .avatar {
+      width: 160px;
+      height: 160px;
+      position: relative;
+      margin: 0 auto;
+      img {
+        width: 160px;
+        height: 160px;
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        bottom: calc(-1*(80px + 4px));
+        border: 2px solid rgba(253, 80, 0, 0.84);
+        background-color: #fff;
+      }
+    }
+  }
+}
+.card-body {
+  background-color: #ffffff;
+  padding: 30px;
+  height: 50vh;
+  overflow: hidden;
+
+  .user-meta {
+    padding-top: 40px;
+
+    .playername {
+      font-size: 24px;
+      font-weight: 600;
+      color: #303940;
+    }
+
+    .country {
+      font-size: 90%;
+      color: #949ea6;
+      text-transform: uppercase;
+      margin: 0 auto;
+    }
+  }
+}
