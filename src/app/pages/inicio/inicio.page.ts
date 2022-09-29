@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NavController, ToastController} from '@ionic/angular';
+import {AlertController, NavController, ToastController} from '@ionic/angular';
 import {initioService} from './service/initio.service';
 
 @Component({
@@ -17,13 +17,13 @@ export class InicioPage implements OnInit {
   token = localStorage.getItem('token');
 
   features:any[]=[
-    {id:1, name:'NOTAS', src: 'https://bit.ly/3y38vRU'},
-    {id:2, name:'PAGOS', src: 'https://bit.ly/3RkkzVI'},
-    {id:3, name:'HORARIO', src: 'https://bit.ly/3RkkzVI'},
-    {id:4, name:'ESTUDIO', src: 'https://bit.ly/3RkkzVI'},
+    {id:1, name:'CALIFICACIONES', src: '../../../assets/image/nota.png'},
+    {id:2, name:'PAGOS', src: '../../../assets/image/pago.png'},
+    {id:3, name:'HORARIO', src: '../../../assets/image/calendario.png'},
+    {id:4, name:'ESTUDIO', src: '../../../assets/image/materiales.png'},
   ]
 
-  constructor(public service: initioService, public navCtrl: NavController) {
+  constructor(public service: initioService, public navCtrl: NavController, public alertController: AlertController,) {
   }
 
   ngOnInit() {
@@ -50,7 +50,23 @@ export class InicioPage implements OnInit {
     this.service.getAllCoursesbyUser(this.token).subscribe(resp => {
       console.log(resp);
       if (resp){
-        this.courses = resp['courses'];
+        let dip=[];
+        resp['courses'].forEach(i=>{
+          var splitted = i.course.courses_name.split(" ");
+          var name = i.course.courses_name.split(" ");
+          splitted.splice(0,3);
+          name.splice(0,2);
+          var primero = name.toString().charAt(0)
+          var cadena= splitted.toString();
+          let nueva = 'D'+primero+': '+cadena.replace(/_|#|-|@|<>|,/g, " ")
+          dip.push({
+            'courses_name': nueva,
+            'courses_code': i.course.courses_code,
+            'detail': i.course.detail,
+            'is_active': i.is_active
+          })
+        })
+        this.courses = dip;
       }
     });
   }
@@ -62,5 +78,27 @@ export class InicioPage implements OnInit {
     };
     this.service.setUrlImag(body);
     this.navCtrl.navigateRoot('menu/diplomado/detalle-diplomado/' + diplomatCourse);
+  }
+
+  async salir(){
+    const alert = await this.alertController.create({
+      header: 'Salir',
+      message: '¿Deberitas te quieres salir?',
+      buttons: [
+        {
+          text: 'No mejor no',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Sii',
+          handler: () => {
+            localStorage.removeItem('ingresado');
+            this.navCtrl.navigateRoot('login');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

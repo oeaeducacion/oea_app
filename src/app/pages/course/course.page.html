@@ -1,19 +1,41 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-toolbar>
+  <div class="main-header">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-button (click)="volver()">
+        <ion-label style="color: white">Regresar</ion-label>
+      </ion-button>
     </ion-buttons>
-    <ion-title>Diplomado</ion-title>
-  </ion-toolbar>
-</ion-header>
-
+    <ion-title style="color: white">DIPLOMADO</ion-title>
+  </div>
+</ion-toolbar>
 <ion-content>
-  <ion-card>
+  <ion-grid>
+    <ion-row class="ion-margin-horizontal">
+      <ion-col *ngFor="let item of features" size="12">
+        <ion-card>
+          <ion-row>
+            <ion-col size="10">
+              <ion-text style="font-size: 1.5vh; margin-left: 15px; color: #fd5000; font-weight: bold">{{item?.name}}</ion-text>
+            </ion-col>
+            <ion-col size="2">
+              <ion-avatar style="background: #fd5000">
+                <img [src]="item?.src"/>
+              </ion-avatar>
+            </ion-col>
+          </ion-row>
+<!--          <ion-card-content>
+            <ion-label style="font-size: 1.7vh;" color="dark">{{item?.name}}</ion-label>
+          </ion-card-content>-->
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!--<ion-card>
     <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12  img-fondo">
         <div class="contenedor">
           <img [src]="!!img ? img : 'https://oea-files.s3.amazonaws.com/diplomados/IMG-INICIO-PLATAFORMA/Portada++pagina+web-02.jpg'"  alt="">
-          <!--https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png-->
+          &lt;!&ndash;https://oea-files.s3.amazonaws.com/web_backend/alumno/baner_alumno_aula_1700-300.png&ndash;&gt;
           <div class="centrado">
             <h3> <b class="bg-oea">{{course_name}}</b></h3>
           </div>
@@ -221,5 +243,5 @@
         </ion-accordion>
       </ion-accordion-group>
     </ion-card-content>
-  </ion-card>
+  </ion-card>-->
 </ion-content>

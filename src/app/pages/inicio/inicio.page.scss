@@ -1,9 +1,11 @@
 ion-header{
   background: transparent;
+  display: flex;
+  justify-content: center;
   ion-item{
     --background: transparent;
     ion-avatar{
-      background: white;
+      background: transparent;
     }
   }
 }
@@ -12,7 +14,7 @@ ion-content{
     font-family: Arial;
   }
   .main-header{
-    height: 45vh;
+    height: 48vh;
     width: 150%;
     background: linear-gradient(90deg, var(--ion-color-danger)10%, var(--ion-color-primary)100%);
     box-shadow: 0 1px 10px var(--ion-color-light);
@@ -27,6 +29,7 @@ ion-content{
     position: absolute;
     padding-bottom: 8vh;
     transform: translateY(10vh);
+    margin-top: 15px;
     ion-row{
       ion-col{
         ion-label{
@@ -34,6 +37,7 @@ ion-content{
         }
         ion-chip{
           ion-label{
+            color: white;
             font-size: 1rem;
             font-weight: bold;
             letter-spacing: 0.5px;

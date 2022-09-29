@@ -1,10 +1,10 @@
 ion-content {
-  --background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(255, 204, 171, 0.1)),
+  --background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(255, 204, 171, 0.15)),
   url("../../../assets/image/fondo3.jpg") no-repeat;
+  -moz-background-size: 100%;
 }
 .card {
   margin: 0 auto;
-
   .header {
     height: 200px;
     .avatar {
@@ -28,7 +28,6 @@ ion-content {
 .card-body {
   background-color: #ffffff;
   padding: 30px;
-  height: 50vh;
   overflow: hidden;
 
   .user-meta {
@@ -37,14 +36,18 @@ ion-content {
     .playername {
       font-size: 24px;
       font-weight: 600;
-      color: #303940;
+      color: #fd5000;
     }
 
     .country {
       font-size: 90%;
-      color: #949ea6;
+      color: #fd5000;
+      font-weight: bolder;
       text-transform: uppercase;
       margin: 0 auto;
     }
+  }
+  .in{
+    margin-top: 15px;
   }
 }

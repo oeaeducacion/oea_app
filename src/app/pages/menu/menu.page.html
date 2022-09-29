@@ -36,13 +36,13 @@
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button [tab]="pagina.url" *ngFor="let pagina of paginas; let i = index">
-        <ion-icon [name]="pagina.icono + '-outline'"></ion-icon>
-        <ion-label>{{pagina.titulo}}</ion-label>
+        <ion-icon  color="primary" [name]="pagina.icono + '-outline'"></ion-icon>
+        <ion-label color="primary">{{pagina.titulo}}</ion-label>
       </ion-tab-button>
-      <ion-tab-button (click)="salir()">
+      <!--<ion-tab-button (click)="salir()">
         <ion-icon [name]="'exit-outline'"></ion-icon>
         <ion-label>Salir</ion-label>
-      </ion-tab-button>
+      </ion-tab-button>-->
     </ion-tab-bar>
   </ion-tabs>
 </ion-split-pane>

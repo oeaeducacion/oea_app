@@ -157,26 +157,61 @@
   </ion-card>
 </ion-content>
 -->
-<ion-content [fullscreen]="true" slot="fixed" >
+<ion-content [fullscreen]="true">
   <div class="card">
     <div class="header">
       <div class="avatar">
         <img src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg?w=2000" alt="">
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" *ngIf="profile">
       <div class="user-meta ion-text-center">
-        <h3 class="playername">ROBINSON ESTRELLA</h3>
-        <h5 class="country">OEA EDUCACIÓN</h5>
-        <h6 class="ranking">Edad:
-          <ion-chip>
-            <ion-label>21</ion-label>
-          </ion-chip>
-        </h6>
+        <h3 class="playername">{{profile.nombres}} {{profile.apellidos}}</h3>
+        <!--<h5 class="country">OEA EDUCACIÓN</h5>-->
+        <ion-chip style="background: antiquewhite;">
+          <ion-label><b>Usuario: </b>{{profile.dni}}</ion-label>
+        </ion-chip>
       </div>
-      <ion-button expand="full" color="primary">http://rogerfederer.com</ion-button>
-      <ion-button expand="full" color="secondary">@RogerFederer on Twitter</ion-button>
-      <ion-button expand="full" color="secondary">View profile at ATP</ion-button>
+      <form [formGroup]="formularioPerfil">
+        <div class="in">
+          <ion-item>
+            <ion-label><ion-icon color="primary" name="mail"></ion-icon></ion-label>
+            <ion-input placeholder="" formControlName="email"></ion-input>
+          </ion-item>
+        </div>
+        <div class="in">
+          <ion-item>
+            <ion-label><ion-icon color="primary" name="location"></ion-icon></ion-label>
+            <ion-input placeholder="" formControlName="direccion"></ion-input>
+          </ion-item>
+        </div>
+        <div class="in">
+          <ion-item>
+            <ion-label><ion-icon color="primary" name="call"></ion-icon></ion-label>
+            <ion-input placeholder="" formControlName="celular"></ion-input>
+          </ion-item>
+        </div>
+        <div class="in">
+          <ion-item>
+            <ion-label><ion-icon color="primary" name="school"></ion-icon></ion-label>
+            <ion-input placeholder="Ingrese Profesion" formControlName="profesion"></ion-input>
+          </ion-item>
+        </div>
+        <div class="in">
+          <ion-item>
+            <ion-label><ion-icon color="primary" name="ribbon"></ion-icon></ion-label>
+            <ion-input placeholder="Ingrese CEP" formControlName="cep"></ion-input>
+          </ion-item>
+        </div>
+      </form>
+      <br>
+      <div class="ion-text-center" style="margin-top: 15px">
+        <ion-button color="primary" (click)="UpdateProfile()">
+          <ion-label style="color: white; font-weight: bold">Actualizar Perfil</ion-label>
+        </ion-button>
+      </div>
     </div>
   </div>
 </ion-content>
+
+<!--<ion-spinner color="primary"> Cargando </ion-spinner>-->

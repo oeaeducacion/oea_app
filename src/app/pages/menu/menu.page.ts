@@ -22,6 +22,11 @@ export class MenuPage implements OnInit {
       icono: 'clipboard'
     },
     {
+      titulo: 'Vivo',
+      url: 'notas',
+      icono: 'play-circle'
+    },
+    {
       titulo: 'Mis Pagos',
       url: 'pagos',
       icono: 'card'
@@ -63,7 +68,6 @@ export class MenuPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
 }

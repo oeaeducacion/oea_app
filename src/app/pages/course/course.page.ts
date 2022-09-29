@@ -2,6 +2,7 @@ import { Component, OnInit, } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {initioService} from "../inicio/service/initio.service";
 import {coursesService} from "./service/courses.service";
+import {NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-course',
@@ -10,6 +11,15 @@ import {coursesService} from "./service/courses.service";
 })
 export class CoursePage implements OnInit {
 
+  features:any[]=[
+    {id:1, name:'Atencion del paciente politraumatizado. Atencion del Pacte con TEC.', src: '../../../assets/image/1.png'},
+    {id:1, name:'MODULO', src: '../../../assets/image/1.png'},
+    {id:1, name:'MODULO', src: '../../../assets/image/1.png'},
+    {id:1, name:'MODULO', src: '../../../assets/image/1.png'},
+    {id:2, name:'PAGOS', src: '../../../assets/image/pago.png'},
+    {id:3, name:'HORARIO', src: '../../../assets/image/calendario.png'},
+    {id:4, name:'ESTUDIO', src: '../../../assets/image/materiales.png'},
+  ]
   course_name: any[] = [];
   img: any;
   public url: any;
@@ -43,7 +53,7 @@ export class CoursePage implements OnInit {
   nota:any
 
   constructor(public service: initioService, private route: ActivatedRoute,
-              private diplomadoDetailService: coursesService) {
+              private diplomadoDetailService: coursesService, public navCtrl: NavController) {
     this.courseCode = this.route.snapshot.params['code']
   }
 
@@ -259,5 +269,9 @@ export class CoursePage implements OnInit {
     reader.onload = (_event) => {
       this.url = reader.result;
     }
+  }
+
+  volver(){
+    this.navCtrl.navigateRoot('menu/inicio');
   }
 }
