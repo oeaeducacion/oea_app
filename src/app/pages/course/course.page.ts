@@ -1,13 +1,17 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, LOCALE_ID} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {initioService} from "../inicio/service/initio.service";
 import {coursesService} from "./service/courses.service";
 import {NavController} from "@ionic/angular";
+import localeEs from '@angular/common/locales/es'
+import {registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.page.html',
   styleUrls: ['./course.page.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' } ]
 })
 export class CoursePage implements OnInit {
 
@@ -20,19 +24,11 @@ export class CoursePage implements OnInit {
     {id:3, name:'HORARIO', src: '../../../assets/image/calendario.png'},
     {id:4, name:'ESTUDIO', src: '../../../assets/image/materiales.png'},
   ]
+
   course_name: any[] = [];
   img: any;
   public url: any;
   public token = localStorage.getItem('token');
-  public isProfile = false;
-  public isMutualFriend = false;
-  public isActiveFeed = false;
-  public isIntroProfile = false;
-  public isFollowers = false;
-  public isFollowings = false;
-  public isLatestPhotos = false;
-  public isFriends = false;
-  public bg_color:any;
   courseCode: any;
   modules: any[] = [];
   grabacion: any[] = [];
@@ -42,6 +38,7 @@ export class CoursePage implements OnInit {
   public evaluations!: Array<any>;
   action:any
   module_id:any;
+  diplomado:any
   diplomado_id:any;
   id:any
   id_examen:any
@@ -73,29 +70,27 @@ export class CoursePage implements OnInit {
 
   getDetailDiplomado() {
     this.diplomadoDetailService.getDetailDiplomadoByCode(this.token, this.courseCode).subscribe(resp => {
-      console.log(resp)
       if (resp['success'] === true){
-        let body = {
-          'img': resp['data']['img'],
-          'name_course': resp['data']['name_diplomado'],
-        };
-        this.diplomadoDetailService.setUrlImag(body);
+        var splitted = resp['data']['name_diplomado'].split(" ");
+        var name = resp['data']['name_diplomado'].split(" ");
+        splitted.splice(0,3);
+        name.splice(0,2);
+        var primero = name.toString().charAt(0)
+        var cadena= splitted.toString();
+        let nueva = 'D'+primero+': '+cadena.replace(/_|#|-|@|<>|,/g, " ")
+        this.diplomado=nueva
         resp['data']['modulos'].forEach(i => {
-          if(this.modules.length%2==0){
-            this.bg_color = "primary"
-          }else{
-            this.bg_color = "light"
-          }
           this.modules.push(
             {
               'id':i['id'],
               'num_module': i['module_number'],
               'name_module': i['module_name'],
-              'bg_color': this.bg_color,
-              'link':i['clase']
+              'link':i['clase'],
+              'clases':i['module_detail']['clases']
             },
           );
         });
+        console.log(this.modules)
       }
     })
   }

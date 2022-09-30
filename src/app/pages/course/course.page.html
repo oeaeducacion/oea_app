@@ -1,31 +1,50 @@
 <ion-toolbar>
   <div class="main-header">
-    <ion-buttons slot="start">
+    <!--<ion-buttons slot="start">
       <ion-button (click)="volver()">
         <ion-label style="color: white">Regresar</ion-label>
       </ion-button>
-    </ion-buttons>
-    <ion-title style="color: white">DIPLOMADO</ion-title>
+    </ion-buttons>-->
+    <ion-title>
+      <ion-label style="color: white; font-size: 6vw">DIPLOMADO</ion-label>
+    </ion-title>
   </div>
 </ion-toolbar>
 <ion-content>
   <ion-grid>
     <ion-row class="ion-margin-horizontal">
-      <ion-col *ngFor="let item of features" size="12">
+      <ion-col class="ion-text-center" size="12">
+        <ion-chip style="background: #2E3541;color: white; font-weight: bold ">
+          <ion-text>{{diplomado}}</ion-text>
+        </ion-chip>
+      </ion-col>
+      <ion-col *ngFor="let item of modules" size="12">
         <ion-card>
-          <ion-row>
-            <ion-col size="10">
-              <ion-text style="font-size: 1.5vh; margin-left: 15px; color: #fd5000; font-weight: bold">{{item?.name}}</ion-text>
-            </ion-col>
-            <ion-col size="2">
-              <ion-avatar style="background: #fd5000">
-                <img [src]="item?.src"/>
-              </ion-avatar>
-            </ion-col>
-          </ion-row>
-<!--          <ion-card-content>
-            <ion-label style="font-size: 1.7vh;" color="dark">{{item?.name}}</ion-label>
-          </ion-card-content>-->
+          <ion-card-header>
+            <ion-row>
+              <ion-col size="11">
+                <ion-text style="font-size: 4vw; color: #2E3541; font-weight: bold">{{item?.name_module}}</ion-text>
+              </ion-col>
+              <ion-col size="1">
+                <ion-icon style="color: #2E3541" name="school-outline"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="12">
+                <ion-label *ngIf="item.link.profesor" style="font-size: 3vw;" color="dark"><b style="color: #fd5000">Docente: </b>{{item.link.profesor}}</ion-label>
+                <ion-label *ngIf="!item.link.profesor" style="font-size: 3vw;" color="dark">Sin Docente</ion-label>
+              </ion-col>
+              <div *ngFor="let clase of item.clases; let i = index">
+                <ion-col size="6">
+                  <ion-label style="font-size: 2.7vw;" color="dark">
+                    <b style="color: #fd5000">Clase {{i+1}}: </b>{{clase.fecha_clase*1000 | date:'d/MM/y HH:mm'}}
+                  </ion-label>
+                </ion-col>
+              </div>
+            </ion-row>
+          </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
