@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'restablecer-password/:code',
     loadChildren: () => import('./pages/restablecer-password/restablecer-password.module').then( m => m.RestablecerPasswordPageModule)
   },
+  {
+    path: 'modal',
+    loadChildren: () => import('./shared/modal/modal.module').then( m => m.ModalPageModule)
+  },
 ];
 
 @NgModule({

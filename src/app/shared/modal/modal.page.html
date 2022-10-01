@@ -1,0 +1,13 @@
+<!--MODAL-->
+<ion-list>
+  <ion-item button="true" detail="false" *ngFor="let item of courses" (click)="prueba(item.courses_code)">
+    <ion-avatar slot="start">
+      <ion-icon style="font-size: 8vw" color="primary" name="school-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label  style="color: #2E3541; font-size: 3.5vw">
+      <b>{{item.courses_name}}</b>
+      <p *ngIf="item.is_active==true" style="color: seagreen"><b>ACTIVO</b></p>
+      <p *ngIf="item.is_active==false" style="color: red"><b>INACTIVO</b></p>
+    </ion-label>
+  </ion-item>
+</ion-list>

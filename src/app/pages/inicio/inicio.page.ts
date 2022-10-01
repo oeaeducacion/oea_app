@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {AlertController, NavController, ToastController} from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AlertController, IonModal, NavController, ToastController} from '@ionic/angular';
 import {initioService} from './service/initio.service';
 
 @Component({
@@ -8,6 +8,7 @@ import {initioService} from './service/initio.service';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
+  @ViewChild(IonModal) modal: IonModal;
 
   public term: string;
   courses: any[] = [];
@@ -15,6 +16,8 @@ export class InicioPage implements OnInit {
   // tslint:disable-next-line:variable-name
   course_name: any;
   token = localStorage.getItem('token');
+  isModalPay = false;
+  tipo:any
 
   features:any[]=[
     {id:1, name:'CALIFICACIONES', src: '../../../assets/image/nota.png'},
@@ -48,7 +51,6 @@ export class InicioPage implements OnInit {
 
   listCourses() {
     this.service.getAllCoursesbyUser(this.token).subscribe(resp => {
-      console.log(resp);
       if (resp){
         let dip=[];
         resp['courses'].forEach(i=>{
@@ -68,7 +70,13 @@ export class InicioPage implements OnInit {
         })
         this.courses = dip;
       }
+      console.log(this.courses);
     });
+  }
+
+  setOpenPay(isOpen: boolean, tipo) {
+    this.isModalPay = isOpen;
+    this.tipo=tipo
   }
 
   navDetailDiplomate(diplomatCourse, imagen, course) {
@@ -100,5 +108,27 @@ export class InicioPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  navegar(event){
+    this.modal.dismiss()
+    this.isModalPay = false;
+    switch (this.tipo){
+      case 'CALIFICACIONES':
+        this.navCtrl.navigateRoot('menu/notas/'+event);
+        break;
+      case 'PAGOS':
+        alert('aun no')
+        break;
+      case 'HORARIO':
+        alert('aun no')
+        break;
+      case 'ESTUDIO':
+        alert('aun no')
+        break;
+      case null:
+        alert('aun no')
+        break;
+    }
   }
 }

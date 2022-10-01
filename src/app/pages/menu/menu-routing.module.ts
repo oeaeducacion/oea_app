@@ -17,7 +17,7 @@ const routes: Routes = [
       loadChildren: () => import('../course/course.module').then( m => m.CoursePageModule)
     },
     {
-      path: 'notas',
+      path: 'notas/:code',
       loadChildren: () => import('../notas/notas.module').then( m => m.NotasPageModule)
     },
     {

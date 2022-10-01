@@ -82,46 +82,31 @@ ion-content{
         width: 100%;
         border-radius: 5px;
         background: white;
+        height: 20vw;
         box-shadow: -1px 11px 13px -6px rgba(142, 134, 125, 0.41) !important;
         ion-label{
           font-size: 4vw;
+        }
+        ion-icon{
+          font-size: 10vw;
+          margin-top: -10px;
         }
       }
     }
   }
 }
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
-/*$white:    #fff !default;
-.body-bottom {
-    h6 {
-        color: $white;
-        margin-bottom: 8px;
-    }
-    span {
-        color: rgba($white, 0.8);
-    }
-    text-align: end;
-    margin-right: 10px;
+ion-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
 }
-.bg-img {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    filter: brightness(1);
-    border-radius: 5px;
+
+ion-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
 }
-.btn-oea {
-    background: #fd5000;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-.bg-oea{
-    position: absolute;
-    font-size: 2.5vw;
-    color: white;
-    top: 20%;
-    left: 50%;
-    margin-right: 10px;
-}*/
