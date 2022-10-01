@@ -21,7 +21,6 @@
         <ion-chip style="background: #fd5000;color: white; font-weight: bold " >
           <ion-text>Saldo Total: S/{{total_final}}</ion-text>
         </ion-chip>
-        <ion-button (click)="setOpenPay(true)">Abrir</ion-button>
       </ion-col>
       <ion-col *ngFor="let item of detail_course , index as id" size="12">
         <ion-card>
@@ -366,7 +365,7 @@
       <ion-content *ngIf="allmatricula">
         <ion-row class="center">
           <ion-col size="12">
-            <h3>¡Estas a punto de finalizar tu matrícula!</h3>
+            <h3>¡Estas a punto de finalizar tu pago en OEA Educación!</h3>
           </ion-col>
           <ion-col size="2"></ion-col>
           <ion-col size="8">
@@ -377,7 +376,7 @@
               <ion-col size="6" style="background: #fd5000; color: white">
                 <p>Código de Pago</p>
                 <h4>{{allmatricula.payment_code}}</h4>
-                <button class="copiar" ng-click="displayTooltip = true" (click)="copyCodigo()">
+                <button class="copiar" (click)="copyCodigo()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16">
                     <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/>
                   </svg>

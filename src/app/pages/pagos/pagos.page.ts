@@ -1,10 +1,11 @@
 import {Component, LOCALE_ID, OnInit, ViewChild} from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {coursesService} from "../course/service/courses.service";
 import {pagosService} from "./service/pagos.service";
 import { IonModal } from '@ionic/angular';
 import {FormBuilder, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import {registerLocaleData} from "@angular/common";
 import localeEs from "@angular/common/locales/es";
 registerLocaleData(localeEs, 'es');
@@ -107,8 +108,9 @@ export class PagosPage implements OnInit {
   courses_code:any
   id_temporal:any=null;
 
-  constructor(private diplomadoDetailService: coursesService, private Service: pagosService,
-              public fb: FormBuilder, public toastr: ToastController, private route: ActivatedRoute,) {
+  constructor(private diplomadoDetailService: coursesService, private Service: pagosService, private clipboard: Clipboard,
+              public fb: FormBuilder, public toastr: ToastController, private route: ActivatedRoute,
+              public alertController: AlertController, private loadingCtrl: LoadingController) {
     this.courses_code = this.route.snapshot.params['code']
   }
 
@@ -270,6 +272,7 @@ export class PagosPage implements OnInit {
   }
 
   exectPayment(){
+    this.showLoading()
     this.payWithEfective();
   }
 
@@ -281,27 +284,44 @@ export class PagosPage implements OnInit {
       "razon_social" : this.nameruc,
       "codigo_diplomado" : this.courses_code
     };
-    this.Service.postPagoEfectivo(this.token,jsonbody).subscribe(data => {
+    this.Service.postPagoEfectivo(this.token,jsonbody).subscribe(async data => {
       if (data['success'] === true) {
+        const toast = await this.toastr.create({
+          message: 'Código Generado!',
+          duration: 1000,
+          color: "success"
+        });
+        toast.present();
         this.allmatricula = data['data'];
-        this.codigo_pago=this.allmatricula['payment_code'];
+        this.codigo_pago = this.allmatricula['payment_code'];
         this.monto = +this.allmatricula['amount'] / 100;
         this.listaccordion();
         for (let i = 0; i < this.detail_course.length; i++) {
           this.checkbox[i].is_disabled = disabledType.disabled;
           this.checkbox[i].is_checked = checkedType.unchecked;
         }
-        this.is_pay=false
+        this.is_pay = false
         this.cancel()
         this.setOpenPay(true)
       }
     });
   }
 
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Generando Pago...',
+      duration: 2000,
+    });
+
+    loading.present();
+  }
+
   async copyCodigo() {
+    this.clipboard.copy(this.codigo_pago);
     const toast = await this.toastr.create({
       message: 'Código Copiado!',
-      duration: 2000
+      duration: 2000,
+      color: "warning"
     });
     toast.present();
   }
