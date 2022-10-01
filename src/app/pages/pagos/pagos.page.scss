@@ -1,4 +1,67 @@
-ion-grid {
+ion-toolbar{
+  //--background: transparent;
+  .main-header{
+    height: 30vw;
+    width: 150%;
+    background: linear-gradient(90deg, var(--ion-color-danger)10%, var(--ion-color-primary)100%);
+    box-shadow: 0 1px 10px var(--ion-color-light);
+    border-radius: 0% 0% 50% 50%;
+    margin-left: -24vw;
+    margin-top: -60px;
+  }
+}
+ion-content{
+  --background: #f4f5f8;
+  *{
+    font-family: Arial;
+  }
+  .check{
+    margin-top: 7vw;
+    display: flex;
+    align-items: center;
+  }
+}
+ion-grid{
+  --ion-grid-column-padding: 10px;
+  border-collapse: collapse;
+  border-style: hidden;
+  /*  top: 0;
+    left: 0;
+    position: absolute;
+    margin-top: 15px;*/
+  ion-row{
+    ion-col{
+      ion-card{
+        box-shadow: -1px 11px 13px -6px rgba(142, 134, 125, 0.41);
+        border-radius: 3px !important;
+        margin: 0;
+        //background: linear-gradient(90deg, var(--ion-color-danger)10%, var(--ion-color-primary)100%);
+        background: white;
+        border-left: 10px solid #fd5000;
+        ion-icon{
+          font-size: 8vw;
+          margin-top: -10px;
+        }
+        ion-text{
+          font-size: 4vh;
+          font-weight: bold;
+          color: black;
+        }
+        ion-card-content{
+          margin-top: -15px;
+        }
+      }
+    }
+  }
+}
+
+.tabla-col{
+  border-left: 1px solid #2E3541;
+  border-bottom: 0;
+  border-right: 0;
+}
+
+/*ion-grid {
   --ion-grid-column-padding: 10px;
   border-collapse: collapse;
   border-style: hidden;
@@ -19,9 +82,16 @@ ion-grid {
   ion-row:last-child {
     border-bottom: 1px solid white;
   }
-}
+}*/
+
 .center{
   text-align: center;
+}
+
+ion-modal{
+  ion-content{
+    --background: white;
+  }
 }
 
 #modal {
@@ -31,18 +101,10 @@ ion-grid {
 }
 
 #modal::part(backdrop) {
-  background: rgba(209, 213, 219);
-  opacity: 1;
+  background: white;
 }
 
-#modal ion-toolbar {
-  --background: #fd5000;
-  --color: white;
-}
 .ion-margin{
-  font-size: 10px;
-}
-.button{
   font-size: 10px;
 }
 .copiar{
@@ -62,7 +124,7 @@ ion-grid {
   height: 20px;
 }
 .new{
-  border-radius: 10px;
+  border-radius: 5px;
   background: #4d4d4d;
   color: #fd5000;
   text-align: center;

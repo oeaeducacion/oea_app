@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, LOCALE_ID, OnInit, ViewChild} from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import {coursesService} from "../course/service/courses.service";
 import {pagosService} from "./service/pagos.service";
 import { IonModal } from '@ionic/angular';
 import {FormBuilder, Validators} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
+import {registerLocaleData} from "@angular/common";
+import localeEs from "@angular/common/locales/es";
+registerLocaleData(localeEs, 'es');
 
 enum disabledType {
   enabled,
@@ -17,11 +21,12 @@ enum checkedType {
   selector: 'app-pagos',
   templateUrl: './pagos.page.html',
   styleUrls: ['./pagos.page.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' } ]
 })
 export class PagosPage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   token = localStorage.getItem('token');
-  diplomados: any[] = [];
+  diplomados: any;
   contado: any[] = [];
   color: any[] = [];
   checkbox: any[] = [];
@@ -62,6 +67,7 @@ export class PagosPage implements OnInit {
   iputCard = false;
   tipo_pago: any;
   codigo_pago: any;
+  fecha_ahora:any=new Date().getTime()/1000
 
   code: any;
   mes: any;
@@ -76,7 +82,6 @@ export class PagosPage implements OnInit {
   mastercard:boolean=false;
   american:boolean=false;
   code_diplo:any;
-  fecha_ahora:any
 
   ocultar: boolean = true;
   mostrar_patrocinador: boolean = false;
@@ -92,38 +97,39 @@ export class PagosPage implements OnInit {
     month_expirate: [null],
     year_expirate: [null],
     ruc:[''],
-    is_factura:[''],
+    is_factura:[false],
     razon_social:['']
   });
 
   name: string;
   isModalOpen = false;
   isModalPay = false;
+  courses_code:any
+  id_temporal:any=null;
 
   constructor(private diplomadoDetailService: coursesService, private Service: pagosService,
-              public fb: FormBuilder, public toastr: ToastController) { }
+              public fb: FormBuilder, public toastr: ToastController, private route: ActivatedRoute,) {
+    this.courses_code = this.route.snapshot.params['code']
+  }
 
   ngOnInit() {
-    this.diplomadoDetailService.setUrlImag(null);
     this.listDiplomado();
+    this.listaccordion()
   }
 
   listDiplomado() {
-    this.fecha_ahora=new Date()
     this.Service.getFinancial(this.token).subscribe(data => {
       let monto:number = 0
       if (data['success'] == 'true') {
         data['courses'].forEach(i => {
-          i.detail_cart.cuotas.forEach(a=>{
+          i.detail_cart.cuotas.forEach(a => {
             if (a['is_paid'] != true) {
               monto += +a.monto_pagar;
             }
           })
-          if(this.color.length%2==0){
-            this.bg_color = "primary"
-          }else{
-            this.bg_color = "dark"
-          }
+        })
+        this.total_final=monto+'.00'
+        data['courses'].forEach(i => {
           var splitted = i.course.courses_name.split(" ");
           var name = i.course.courses_name.split(" ");
           splitted.splice(0,3);
@@ -131,18 +137,18 @@ export class PagosPage implements OnInit {
           var primero = name.toString().charAt(0)
           var cadena= splitted.toString();
           let nueva = 'D'+primero+': '+cadena.replace(/_|#|-|@|<>|,/g, " ")
-          this.diplomados.push(
-            {
-              'is_paid': i.is_paid,
-              'course': nueva,
-              'price_diplomado': i['detail_cart']['contado'],
-              'monto_pagar': i['detail_cart']['contado'],
-              'code_course': i['course']['courses_code'],
-              'bg_color': this.bg_color
-            },
-          );
+          if(i.course.courses_code==this.courses_code) {
+            this.diplomados= {
+                'is_paid': i.is_paid,
+                'course': nueva,
+                'price_diplomado': i['detail_cart']['contado'],
+                'monto_pagar': i['detail_cart']['contado'],
+                'code_course': i['course']['courses_code']
+            }
+            return
+          }
         });
-        this.total_final=monto+'.00'
+        console.log(this.diplomados)
         /*
         this.total = this.diplomados.reduce((
                 acc,
@@ -157,8 +163,8 @@ export class PagosPage implements OnInit {
     });
   }
 
-  listaccordion(course) {
-    this.Service.getDetalleFinancial(this.token, course).subscribe(data => {
+  listaccordion() {
+    this.Service.getDetalleFinancial(this.token, this.courses_code).subscribe(data => {
       this.detail_course = data['diplomado']['detail_cart']['cuotas'];
       this.monto_total=0
       this.total2=0
@@ -168,17 +174,14 @@ export class PagosPage implements OnInit {
         }
       })
       this.total2=this.monto_total+'.00'
+      console.log(this.detail_course)
       this.generateCheckbox();
     });
-    this.Service.getDetalleFinancial(this.token, course).subscribe(data => {
-      this.cursos = data['diplomado']['course'];
-    });
-    this.Service.getDetalleFinancial(this.token, course).subscribe(data => {
+    this.Service.getDetalleFinancial(this.token, this.courses_code).subscribe(data => {
       this.cuota = data['diplomado']['detail_cart'];
+      console.log(this.cuota)
     });
   }
-
-  id_temporal:any=null;
 
   generateCheckbox(){
     try {
@@ -207,6 +210,7 @@ export class PagosPage implements OnInit {
   updateCheckbox(id, event){
     // console.log(this.id_temporal)
     var indice = id;
+    console.log(id)
     if (event.target.checked == true) {
       this.is_pay=true;
       if (indice == this.detail_course.length-1) {
@@ -239,11 +243,7 @@ export class PagosPage implements OnInit {
   cancel() {
     this.modal.dismiss(null, 'cancel');
     this.isModalOpen=false
-    this.fecha_exp='';
-    this.mostrar_pago=false;
-    this.mostrar_efectivo=false;
     this.arrayCheck=[];
-    this.is_pay=false
     this.mostrarSelect=false;
   }
 
@@ -252,10 +252,9 @@ export class PagosPage implements OnInit {
     this.isModalOpen=false
   }
 
-  setOpen(isOpen: boolean, code) {
+  setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
 
-    this.code_diplo=code
     var cantidad = this.detail_course.length;
     for (let i = 0; i < cantidad; i++) {
       if(this.checkbox[i].is_checked===1){
@@ -280,14 +279,14 @@ export class PagosPage implements OnInit {
       "is_facture": this.formExcPay.controls['is_factura'].value,
       "ruc": this.formExcPay.controls['ruc'].value,
       "razon_social" : this.nameruc,
-      "codigo_diplomado" : this.code_diplo
+      "codigo_diplomado" : this.courses_code
     };
     this.Service.postPagoEfectivo(this.token,jsonbody).subscribe(data => {
       if (data['success'] === true) {
         this.allmatricula = data['data'];
         this.codigo_pago=this.allmatricula['payment_code'];
         this.monto = +this.allmatricula['amount'] / 100;
-        this.listaccordion(this.code_diplo);
+        this.listaccordion();
         for (let i = 0; i < this.detail_course.length; i++) {
           this.checkbox[i].is_disabled = disabledType.disabled;
           this.checkbox[i].is_checked = checkedType.unchecked;

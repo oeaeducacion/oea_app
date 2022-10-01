@@ -98,7 +98,7 @@ export class MenuPage implements OnInit {
         this.navCtrl.navigateRoot('menu/notas/'+event);
         break;
       case 'PAGOS':
-        alert('aun no')
+        this.navCtrl.navigateRoot('menu/pagos/'+event);
         break;
       case 'HORARIO':
         alert('aun no')

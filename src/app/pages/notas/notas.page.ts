@@ -70,7 +70,29 @@ export class NotasPage implements OnInit {
     if(this.courses_code!= ""){
       this.noteStudentService.getListModules(this.courses_code, this.token).subscribe(res => {
         if(res.success==true){
-          this.modules = res.data;
+          console.log(this.records)
+          let module=[]
+          let nota=[]
+          this.records.forEach(i=>{
+            res.data.forEach(a=>{
+              if(i.num_modulo==a.module_number){
+                /*i.detalle_nota.forEach(r=>{
+                  nota.push({
+                    name_evaluacion: r.name_evaluacion,
+                    nota : r.nota
+                  })
+                })*/
+                module.push({
+                  "id": a.id,
+                  "module_name": a.module_name,
+                  "module_number": a.module_number,
+                  "module_detail": a.module_detail,
+                  'detalle_nota': i.detalle_nota
+                })
+              }
+            })
+          })
+          this.modules = module;
           console.log(this.records)
           console.log(this.modules)
         }
@@ -78,22 +100,23 @@ export class NotasPage implements OnInit {
     }
   }
 
-  getRecords(){
-    let note=[]
-    for(let i=1; 8>i; i++){
+  getRecords() {
+    let note = []
+    for (let i = 1; 8 > i; i++) {
       let body = {
         "course_code": this.courses_code,
         "num_module": i
       };
       this.noteStudentService.getRecordModule(body, this.token).subscribe(res => {
-        if(res.success==true) {
+        if (res.success == true) {
           note.push({
-            'num_modulo':res.data.num_modulo,
+            'num_modulo': res.data.num_modulo,
             'detalle_nota': res.data.detalle_nota
           })
         }
+        note.sort((val1, val2)=> {return val1.num_modulo - val2.num_modulo})
       });
     }
-    this.records = note;
+    this.records = note
   }
 }

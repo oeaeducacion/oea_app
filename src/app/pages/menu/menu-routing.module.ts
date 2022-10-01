@@ -25,7 +25,7 @@ const routes: Routes = [
       loadChildren: () => import('../perfil/perfil.module').then( m => m.PerfilPageModule)
     },
     {
-      path: 'pagos',
+      path: 'pagos/:code',
       loadChildren: () => import('../pagos/pagos.module').then( m => m.PagosPageModule)
     }
     ]
