@@ -124,7 +124,7 @@ export class InicioPage implements OnInit {
         alert('aun no')
         break;
       case 'ESTUDIO':
-        alert('aun no')
+        this.navCtrl.navigateRoot('menu/materiales/'+event);
         break;
       case null:
         alert('aun no')

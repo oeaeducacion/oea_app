@@ -72,7 +72,6 @@ export class NotasPage implements OnInit {
         if(res.success==true){
           console.log(this.records)
           let module=[]
-          let nota=[]
           this.records.forEach(i=>{
             res.data.forEach(a=>{
               if(i.num_modulo==a.module_number){

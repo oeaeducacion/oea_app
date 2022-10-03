@@ -27,7 +27,15 @@ const routes: Routes = [
     {
       path: 'pagos/:code',
       loadChildren: () => import('../pagos/pagos.module').then( m => m.PagosPageModule)
-    }
+    },
+    {
+      path: 'materiales/:code',
+      loadChildren: () => import('../materiales/materiales.module').then( m => m.MaterialesPageModule)
+    },
+    {
+      path: 'detalle-modulo/:module',
+      loadChildren: () => import('../detail-course/detail-course.module').then( m => m.DetailCoursePageModule)
+    },
     ]
   }
 ];

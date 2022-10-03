@@ -55,17 +55,7 @@ export class CoursePage implements OnInit {
   }
 
   ngOnInit() {
-    this.updateImage();
     this.getDetailDiplomado();
-  }
-
-  updateImage() {
-    this.service.bannerObs.subscribe(data => {
-      if (data){
-        this.img = data['img'];
-        this.course_name = data['name_course']
-      }
-    });
   }
 
   getDetailDiplomado() {
@@ -266,7 +256,7 @@ export class CoursePage implements OnInit {
     }
   }
 
-  volver(){
-    this.navCtrl.navigateRoot('menu/inicio');
+  detalle(module){
+    this.navCtrl.navigateRoot('menu/detalle-modulo/'+module);
   }
 }

@@ -151,13 +151,6 @@ export class PagosPage implements OnInit {
           }
         });
         console.log(this.diplomados)
-        /*
-        this.total = this.diplomados.reduce((
-                acc,
-                obj,
-            ) => acc + (obj.monto_pagar),
-            0);
-        this.number = parseInt(this.total)+'.00'*/
       }
       else if (data['success'] == 'false') {
         alert('Estas al día en tus pagos 😄 ✅ ');
