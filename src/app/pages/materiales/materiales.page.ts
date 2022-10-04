@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {coursesService} from "../course/service/courses.service";
-import {LoadingController, ToastController} from "@ionic/angular";
+import {LoadingController, NavController, ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-materiales',
@@ -25,7 +25,7 @@ export class MaterialesPage implements OnInit {
     },
   ]
 
-  constructor( private route: ActivatedRoute,  private diplomadoDetailService: coursesService,
+  constructor( private route: ActivatedRoute,  private diplomadoDetailService: coursesService,  public navCtrl: NavController,
                private loadingCtrl: LoadingController,  public toastr: ToastController,)
   {
     this.courseCode = this.route.snapshot.params['code']
@@ -65,6 +65,10 @@ export class MaterialesPage implements OnInit {
             },
           );
         });
+      }
+    },error => {
+      if (error.status == 401) {
+        this.showExpired()
       }
     })
   }
@@ -107,5 +111,15 @@ export class MaterialesPage implements OnInit {
       duration: 1000,
     });
     loading.present();
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

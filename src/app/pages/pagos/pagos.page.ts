@@ -1,5 +1,5 @@
 import {Component, LOCALE_ID, OnInit, ViewChild} from '@angular/core';
-import {AlertController, LoadingController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, NavController, ToastController} from '@ionic/angular';
 import {coursesService} from "../course/service/courses.service";
 import {pagosService} from "./service/pagos.service";
 import { IonModal } from '@ionic/angular';
@@ -109,7 +109,7 @@ export class PagosPage implements OnInit {
   id_temporal:any=null;
 
   constructor(private diplomadoDetailService: coursesService, private Service: pagosService, private clipboard: Clipboard,
-              public fb: FormBuilder, public toastr: ToastController, private route: ActivatedRoute,
+              public fb: FormBuilder, public toastr: ToastController, private route: ActivatedRoute, public navCtrl: NavController,
               public alertController: AlertController, private loadingCtrl: LoadingController) {
     this.courses_code = this.route.snapshot.params['code']
   }
@@ -154,6 +154,10 @@ export class PagosPage implements OnInit {
       }
       else if (data['success'] == 'false') {
         alert('Estas al día en tus pagos 😄 ✅ ');
+      }
+    },error => {
+      if(error.status==401){
+        this.showExpired()
       }
     });
   }
@@ -298,6 +302,16 @@ export class PagosPage implements OnInit {
         this.setOpenPay(true)
       }
     });
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 
   async showLoading() {

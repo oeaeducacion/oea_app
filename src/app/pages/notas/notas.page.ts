@@ -3,6 +3,7 @@ import {initioService} from "../inicio/service/initio.service";
 import {coursesService} from "../course/service/courses.service";
 import {notasService} from "./service/notas.service";
 import {ActivatedRoute} from "@angular/router";
+import {LoadingController, NavController} from "@ionic/angular";
 
 @Component({
   selector: 'app-notas',
@@ -20,26 +21,16 @@ export class NotasPage implements OnInit {
   public courses_code: any;
   public loading:boolean = false;
 
-  constructor(public service: initioService, private diplomadoDetailService: coursesService,
-              private noteStudentService: notasService,private route: ActivatedRoute,) {
+  constructor(public service: initioService, private diplomadoDetailService: coursesService,  private loadingCtrl: LoadingController,
+              private noteStudentService: notasService,private route: ActivatedRoute, public navCtrl: NavController,) {
     this.courses_code = this.route.snapshot.params['code']
   }
 
   ngOnInit() {
-    //this.updateImage()
     this.getListCourses();
     this.getRecords()
     this.getModules()
   }
-
-/*  updateImage() {
-    this.service.bannerObs.subscribe(data => {
-      if (data){
-        this.img = data['img'];
-        this.course_name = data['name_course']
-      }
-    });
-  }*/
 
   getListCourses(){
     this.noteStudentService.getListCourses(this.token).subscribe( res => {
@@ -61,8 +52,11 @@ export class NotasPage implements OnInit {
           return
         }
       })
-      console.log(dip)
       this.courses = dip;
+    },error => {
+      if(error.status==401){
+        this.showExpired()
+      }
     });
   }
 
@@ -117,5 +111,15 @@ export class NotasPage implements OnInit {
       });
     }
     this.records = note
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

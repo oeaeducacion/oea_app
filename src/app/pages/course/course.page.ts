@@ -2,7 +2,7 @@ import { Component, OnInit, LOCALE_ID} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {initioService} from "../inicio/service/initio.service";
 import {coursesService} from "./service/courses.service";
-import {NavController} from "@ionic/angular";
+import {LoadingController, NavController} from "@ionic/angular";
 import localeEs from '@angular/common/locales/es'
 import {registerLocaleData} from "@angular/common";
 registerLocaleData(localeEs, 'es');
@@ -49,7 +49,7 @@ export class CoursePage implements OnInit {
   btn_iniciar_exam:boolean=true
   nota:any
 
-  constructor(public service: initioService, private route: ActivatedRoute,
+  constructor(public service: initioService, private route: ActivatedRoute, private loadingCtrl: LoadingController,
               private diplomadoDetailService: coursesService, public navCtrl: NavController) {
     this.courseCode = this.route.snapshot.params['code']
   }
@@ -81,6 +81,10 @@ export class CoursePage implements OnInit {
           );
         });
         console.log(this.modules)
+      }
+    },error => {
+      if(error.status==401){
+        this.showLoading()
       }
     })
   }
@@ -258,5 +262,15 @@ export class CoursePage implements OnInit {
 
   detalle(module){
     this.navCtrl.navigateRoot('menu/detalle/'+ this.courseCode+'/'+module);
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

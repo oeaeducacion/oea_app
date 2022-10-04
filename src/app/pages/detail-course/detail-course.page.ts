@@ -106,6 +106,10 @@ export class DetailCoursePage implements OnInit {
           }
         });
       }
+    },error => {
+      if(error.status==401){
+        this.showExpired()
+      }
     })
   }
 
@@ -163,5 +167,15 @@ export class DetailCoursePage implements OnInit {
       duration: 1000,
     });
     loading.present();
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

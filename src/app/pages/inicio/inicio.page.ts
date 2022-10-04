@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, IonModal, NavController, ToastController} from '@ionic/angular';
+import {AlertController, IonModal, LoadingController, NavController, ToastController} from '@ionic/angular';
 import {initioService} from './service/initio.service';
+import {LocalNotifications} from "@awesome-cordova-plugins/local-notifications/ngx";
 
 @Component({
   selector: 'app-inicio',
@@ -26,27 +27,12 @@ export class InicioPage implements OnInit {
     {id:4, name:'ESTUDIO', src: '../../../assets/image/materiales.png'},
   ]
 
-  constructor(public service: initioService, public navCtrl: NavController, public alertController: AlertController,) {
+  constructor(public service: initioService, public navCtrl: NavController, public alertController: AlertController,
+              private localNotifications: LocalNotifications,  private loadingCtrl: LoadingController,) {
   }
 
   ngOnInit() {
     this.listCourses();
-    this.refreshBanner();
-    this.updateImage();
-  }
-
-  updateImage() {
-    this.service.bannerObs.subscribe(data => {
-      if (data){
-        this.img = data.img;
-        this.course_name = data.name_course;
-      }
-    });
-  }
-
-  refreshBanner(){
-    const body = {};
-    this.service.setUrlImag(body);
   }
 
   listCourses() {
@@ -70,7 +56,10 @@ export class InicioPage implements OnInit {
         })
         this.courses = dip;
       }
-      console.log(this.courses);
+    },error => {
+      if(error.status==401){
+        this.showExpired()
+      }
     });
   }
 
@@ -110,6 +99,15 @@ export class InicioPage implements OnInit {
     await alert.present();
   }
 
+  noti(){
+    this.localNotifications.schedule({
+      text: 'Delayed ILocalNotification',
+      trigger: {at: new Date(new Date().getTime() + 3600)},
+      led: 'FF0000',
+      sound: null
+    });
+  }
+
   navegar(event){
     this.modal.dismiss()
     this.isModalPay = false;
@@ -130,5 +128,15 @@ export class InicioPage implements OnInit {
         alert('aun no')
         break;
     }
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

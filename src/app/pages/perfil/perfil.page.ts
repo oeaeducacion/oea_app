@@ -3,7 +3,7 @@ import {coursesService} from "../course/service/courses.service";
 import {initioService} from "../inicio/service/initio.service";
 import {perfilService} from "./service/perfil.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AlertController, LoadingController, ToastController} from "@ionic/angular";
+import {AlertController, LoadingController, NavController, ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-perfil',
@@ -27,21 +27,10 @@ export class PerfilPage implements OnInit {
 
   constructor(private diplomadoDetailService: coursesService, public service: initioService, private toastController: ToastController,
               private profileService: perfilService, public fb: FormBuilder,  public alertController: AlertController,
-              private loadingCtrl: LoadingController) {}
+              private loadingCtrl: LoadingController, public navCtrl: NavController,) {}
 
   ngOnInit() {
-    this.updateImage()
-    this.diplomadoDetailService.setUrlImag(null);
     this.listInfoUser()
-  }
-
-  updateImage() {
-    this.service.bannerObs.subscribe(data => {
-      if (data){
-        this.img = data['img'];
-        this.course_name = data['name_course']
-      }
-    });
   }
 
   listInfoUser() {
@@ -58,6 +47,10 @@ export class PerfilPage implements OnInit {
         if(this.profile.user_config.info_student.profesion){
           this.formularioPerfil.controls['profesion'].setValue(this.profile.user_config.info_student.profesion)
         }
+      }
+    },error => {
+      if(error.status==401){
+        this.showExpired()
       }
     });
   }
@@ -102,5 +95,15 @@ export class PerfilPage implements OnInit {
     });
 
     loading.present();
+  }
+
+  async showExpired() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Sesión Expirada!',
+      duration: 2000,
+    });
+    loading.present();
+    localStorage.removeItem('ingresado');
+    this.navCtrl.navigateRoot('login');
   }
 }

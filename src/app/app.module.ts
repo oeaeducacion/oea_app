@@ -9,11 +9,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 // Import plugin
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import {LocalNotifications} from "@awesome-cordova-plugins/local-notifications/ngx";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
-  providers: [Clipboard,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Clipboard, LocalNotifications,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
