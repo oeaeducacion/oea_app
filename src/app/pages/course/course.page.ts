@@ -257,6 +257,6 @@ export class CoursePage implements OnInit {
   }
 
   detalle(module){
-    this.navCtrl.navigateRoot('menu/detalle-modulo/'+module);
+    this.navCtrl.navigateRoot('menu/detalle/'+ this.courseCode+'/'+module);
   }
 }

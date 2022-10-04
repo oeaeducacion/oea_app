@@ -85,7 +85,7 @@ export class InicioPage implements OnInit {
       name_course: course,
     };
     this.service.setUrlImag(body);
-    this.navCtrl.navigateRoot('menu/diplomado/detalle-diplomado/' + diplomatCourse);
+    this.navCtrl.navigateRoot('menu/diplomado/' + diplomatCourse);
   }
 
   async salir(){

@@ -13,7 +13,7 @@ const routes: Routes = [
       loadChildren: () => import('../inicio/inicio.module').then( m => m.InicioPageModule)
     },
     {
-      path: 'diplomado/detalle-diplomado/:code',
+      path: 'diplomado/:code',
       loadChildren: () => import('../course/course.module').then( m => m.CoursePageModule)
     },
     {
@@ -33,7 +33,7 @@ const routes: Routes = [
       loadChildren: () => import('../materiales/materiales.module').then( m => m.MaterialesPageModule)
     },
     {
-      path: 'detalle-modulo/:module',
+      path: 'detalle/:code/:module',
       loadChildren: () => import('../detail-course/detail-course.module').then( m => m.DetailCoursePageModule)
     },
     ]

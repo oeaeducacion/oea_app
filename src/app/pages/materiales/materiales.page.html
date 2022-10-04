@@ -33,15 +33,6 @@
                                       value="{{tipo.name}}" (click)="getMaterials(item.num_module, tipo.id)">
                     {{tipo.name}}
                   </ion-segment-button>
-                  <!--<ion-segment-button class="ion-text-center" value="{{item.id}}" (click)="getMaterials(item.num_module, 3)">
-                    Diapositivas
-                  </ion-segment-button>
-                  <ion-segment-button class="ion-text-center" (click)="getMaterials(item.num_module, 2)">
-                    Adicional
-                  </ion-segment-button>
-                  <ion-segment-button class="ion-text-center" (click)="getMaterials(item.num_module, 1)">
-                    Lectura
-                  </ion-segment-button>-->
                 </ion-segment>
               </ion-col>
               <ion-col size="12" style="margin-left: -3vw" *ngIf="item.num_module==num_module">

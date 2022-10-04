@@ -20,6 +20,11 @@ export class coursesService {
     return this.httpClient.get(this.envUrl.urlAddress + 'alumno/diplomado/listar-modulos/'+ data, {headers: headers});
   }
 
+  getRecordModule(body, token){
+    const headers = new HttpHeaders().set('Authorization', 'Token ' + token);
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'alumno/notas/modulos/nota/',body, {headers: headers});
+  }
+
   getStudyMaterials(token, body){
     const headers = new HttpHeaders().set('Authorization', 'Token ' + token);
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'academico/material-estudio/todos/',body, {headers: headers});
