@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon (click)="volver()" slot="start" name="arrow-back-outline"></ion-icon>
+    <ion-title>EXAMENES</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-margin-horizontal" *ngIf="modules.length>0">
+      <ion-col class="ion-text-center" size="12">
+        <ion-chip style="background: #2E3541;color: white; font-weight: bold ">
+          <ion-text>{{diplomado}}</ion-text>
+        </ion-chip>
+      </ion-col>
+      <ion-col *ngFor="let item of modules" size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-row>
+              <ion-col size="11">
+                <ion-text style="font-size: 4vw; color: #2E3541; font-weight: bold">{{item?.name_module}}</ion-text>
+              </ion-col>
+              <ion-col size="1">
+                <ion-icon style="color: #2E3541" name="school-outline"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col *ngFor="let eval of item.evaluacion[0]; let i = index" size="12">
+                <ion-card button="true" detail="false" class="evaluation" (click)="action_Evaluation(item.id, eval.id)">
+                  <div class="ion-text-center" style="margin-top: 2vw; margin-left: 2vw; margin-right: 2vw">
+                    <ion-label style="font-size: 3.5vw; color: #2E3541">
+                      {{eval.evaluation_form.name}}
+                    </ion-label>
+                  </div>
+                  <div style="margin-top: 2vw; margin-left: 2vw; margin-bottom: 2vw;">
+                    <ion-label style="font-size: 3vw">
+                      <b style="color: #fd5000">Fecha Inicio: </b>{{eval.detail.fecha_inicio*1000 | date:'dd/MM/yyyy HH:mm'}}
+                    </ion-label>
+                    <br>
+                    <ion-label style="font-size: 3vw">
+                      <b style="color: #fd5000">Fecha Fin: </b>{{eval.detail.fecha_inicio*1000 | date:'dd/MM/yyyy HH:mm'}}
+                    </ion-label>
+                  </div>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<!--MODAL-->
+<ion-modal #modal [isOpen]="isModalPay">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar style="--background: #2E3541">
+        <ion-title>Escoge</ion-title>
+        <ion-buttons slot="end">
+          <ion-button color="light" (click)="setOpenPay(false)">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-row>
+        <ion-col class="ion-text-center" size="12">
+          <ion-icon size="10" name="clipboard-outline"></ion-icon>
+        </ion-col>
+        <ion-col size="12">
+          <div class="ion-text-center">
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ng-template>
+</ion-modal>

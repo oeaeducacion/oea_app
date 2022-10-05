@@ -23,7 +23,7 @@ export class InicioPage implements OnInit {
   features:any[]=[
     {id:1, name:'CALIFICACIONES', src: '../../../assets/image/nota.png'},
     {id:2, name:'PAGOS', src: '../../../assets/image/pago.png'},
-    {id:3, name:'HORARIO', src: '../../../assets/image/calendario.png'},
+    {id:3, name:'EXAMENES', src: '../../../assets/image/exam.png'},
     {id:4, name:'ESTUDIO', src: '../../../assets/image/materiales.png'},
   ]
 
@@ -118,8 +118,8 @@ export class InicioPage implements OnInit {
       case 'PAGOS':
         this.navCtrl.navigateRoot('menu/pagos/'+event);
         break;
-      case 'HORARIO':
-        alert('aun no')
+      case 'EXAMENES':
+        this.navCtrl.navigateRoot('menu/examenes/'+event);
         break;
       case 'ESTUDIO':
         this.navCtrl.navigateRoot('menu/materiales/'+event);

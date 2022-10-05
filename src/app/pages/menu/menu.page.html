@@ -32,7 +32,7 @@
       </ion-list>
     </ion-content>
   </ion-menu>-->
-  <ion-router-outlet id="main" main></ion-router-outlet>
+  <ion-router-outlet id="main"></ion-router-outlet>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button style="background: #fdfdfd;" [tab]="'inicio'">
@@ -43,9 +43,13 @@
         <ion-icon [name]="'clipboard-outline'"></ion-icon>
         <ion-label >Calificaciones</ion-label>
       </ion-tab-button>-->
-      <ion-tab-button style="background: #fdfdfd;">
+      <ion-tab-button *ngIf="link" class="parpadea" style="background: #fdfdfd;" (click)="abrirLink()">
+        <ion-icon style="color: red;" [name]="'play-circle-outline'"></ion-icon>
+        <ion-label style="color: red;">Vivo</ion-label>
+      </ion-tab-button>
+      <ion-tab-button *ngIf="!link" style="background: #fdfdfd;">
         <ion-icon [name]="'play-circle-outline'"></ion-icon>
-        <ion-label >Vivo</ion-label>
+        <ion-label>Vivo</ion-label>
       </ion-tab-button>
       <!--<ion-tab-button style="background: #fdfdfd;" (click)="setOpenPay(true, 'PAGOS')">
         <ion-icon [name]="'card-outline'"></ion-icon>
@@ -58,10 +62,10 @@
     </ion-tab-bar>
   </ion-tabs>
   <!--MODAL-->
-  <ion-modal id="modal" #modal [isOpen]="isModalPay"  trigger="open-modal">
+<!--  <ion-modal id="modal" #modal [isOpen]="isModalPay"  trigger="open-modal">
     <ng-template>
       <ion-content>
-        <ion-toolbar style="--background: #2E3541">
+        <ion-toolbar style="&#45;&#45;background: #2E3541">
           <ion-title>Escoge un Diplomado</ion-title>
           <ion-buttons slot="end">
             <ion-button color="light" (click)="setOpenPay(false, null)">Cerrar</ion-button>
@@ -70,5 +74,5 @@
         <app-modal [courses]="courses" [tipo]="tipo" (miEvento)="navegar( $event)"></app-modal>
       </ion-content>
     </ng-template>
-  </ion-modal>
+  </ion-modal>-->
 </ion-split-pane>

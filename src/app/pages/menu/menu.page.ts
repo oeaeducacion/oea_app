@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AlertController, IonModal, NavController} from '@ionic/angular';
 import {initioService} from "../inicio/service/initio.service";
+import {MenuService} from "./service/menu.service";
 
 @Component({
   selector: 'app-menu',
@@ -41,18 +42,51 @@ export class MenuPage implements OnInit {
   ]
 
   isModalPay = false;
-  courses:any
+  link:any
   token = localStorage.getItem('token');
   tipo:any
 
   constructor(public alertController: AlertController,
-    public navCtrl: NavController, public service: initioService,) { }
+    public navCtrl: NavController, public service: MenuService,) { }
 
   ngOnInit() {
-    this.listCourses()
+    this.listClase()
   }
 
-  listCourses() {
+  listClase(){
+    this.service.getClaseLive(this.token).subscribe(resp => {
+      if (resp['success']==true){
+        this.link = resp['link_clase'];
+      }
+      else {
+        this.link = null;
+      }
+      console.log(this.link);
+    });
+  }
+
+  async abrirLink() {
+    const alert = await this.alertController.create({
+      header: 'CLASE',
+      message: '¿Desea entrar a clase?',
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Si',
+          handler: () => {
+            window.open(this.link, '_blank')
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  /*listCourses() {
     this.service.getAllCoursesbyUser(this.token).subscribe(resp => {
       if (resp){
         let dip=[];
@@ -75,14 +109,10 @@ export class MenuPage implements OnInit {
       }
       console.log(this.courses);
     });
-  }
+  }*/
 
   cambiarIndiceSeleccionado(i){
     this.indiceSeleccionado = i;
-  }
-
-  notas(){
-
   }
 
   setOpenPay(isOpen: boolean, tipo) {

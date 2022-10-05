@@ -69,12 +69,6 @@ export class NotasPage implements OnInit {
           this.records.forEach(i=>{
             res.data.forEach(a=>{
               if(i.num_modulo==a.module_number){
-                /*i.detalle_nota.forEach(r=>{
-                  nota.push({
-                    name_evaluacion: r.name_evaluacion,
-                    nota : r.nota
-                  })
-                })*/
                 module.push({
                   "id": a.id,
                   "module_name": a.module_name,

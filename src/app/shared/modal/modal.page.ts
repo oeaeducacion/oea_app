@@ -29,7 +29,7 @@ export class ModalPage implements OnInit {
       case 'PAGOS':
         this.miPrueba.emit(this.code)
         break;
-      case 'HORARIO':
+      case 'EXAMENES':
         this.miPrueba.emit(this.code)
         break;
       case 'ESTUDIO':
