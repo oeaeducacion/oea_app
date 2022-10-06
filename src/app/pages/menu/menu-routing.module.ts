@@ -40,6 +40,10 @@ const routes: Routes = [
       path: 'examenes/:code',
       loadChildren: () => import('../examenes/examenes.module').then( m => m.ExamenesPageModule)
     },
+    {
+      path: 'test/:code/:modulo_id/:id_examen',
+      loadChildren: () => import('../test/test.module').then( m => m.TestPageModule)
+    },
     ]
   }
 ];

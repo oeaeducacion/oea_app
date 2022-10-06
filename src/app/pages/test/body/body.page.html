@@ -1,0 +1,32 @@
+<div *ngIf="examen">
+  <ion-row *ngFor="let examen of preguntas, index as id">
+    <ion-col size="12" style="margin-top: -9vw;">
+      <ion-card style="border-top: 3vw solid #fd5000">
+        <ion-card-content>
+          <input [value]="examen.id" type="text" hidden>
+          <div style="text-align: justify">
+            <h3>{{id+1+'.-'}}<b>{{examen.preguntas.texto}}</b></h3>
+            <br>
+          </div>
+          <div>
+            <div *ngIf="examen.preguntas.seleccion_multiple==false">
+              <label class="item item-radio" *ngFor="let resp of examen.respuesta">
+                <ion-row>
+                  <ion-col size="1">
+                    <input *ngIf="resp.seleccionado" [checked]="true" type="radio" name="{{examen.id}}" (change)="changeAlternativas(resp.id, $event, examen.id)">
+                    <input *ngIf="!resp.seleccionado" [checked]="false" type="radio" name="{{examen.id}}" (change)="changeAlternativas(resp.id, $event, examen.id)">
+                  </ion-col>
+                  <ion-col size="11">
+                    <div class = "item-content" style="text-align: justify">
+                      <h4>{{resp.texto}}</h4>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </label>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</div>

@@ -46,6 +46,11 @@ export class coursesService {
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'academico/estudiante/listar-ficha-evaluacion/',body, {headers: headers});
   }
 
+  getDetailExamenResp(token, data){
+    const headers = new HttpHeaders().set('Authorization', 'Token ' + token);
+    return this.httpClient.post(this.envUrl.urlAddress + 'academico/evaluacion/estudiante/listar/evaluacion/',data, {headers: headers});
+  }
+
   get_Action(token, body){
     const headers = new HttpHeaders().set('Authorization', 'Token ' + token);
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'academico/evaluacion/accion-ficha-evaluacion/',body, {headers: headers});
