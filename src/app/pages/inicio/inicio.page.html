@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-item lines="none">
     <ion-avatar slot="end"></ion-avatar>
-    <div style="width: 30%;position: fixed;margin-top: 30px;margin-left: -45px;">
+    <div style="width: 30%;position: fixed;margin-top: 15vw;margin-left: -10vw;">
       <img src="../../../assets/image/logo_blanco.png" alt="">
     </div>
   </ion-item>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true" color="light">
   <div class="main-header">
     <ion-grid>
-      <ion-row>
+      <ion-row style="margin-top: 4vw">
         <ion-col size="9">
           <ion-label *ngIf="profile">
             <ion-note color="light" class="ion-margin-start">
@@ -42,7 +42,7 @@
               </div>
             </ion-card-header>
             <ion-card-content>
-              <ion-label style="font-size: 4vw;" color="dark">{{item?.name}}</ion-label>
+              <ion-label style="font-size: 3.5vw;" color="dark">{{item?.name}}</ion-label>
             </ion-card-content>
           </ion-card>
         </ion-col>
