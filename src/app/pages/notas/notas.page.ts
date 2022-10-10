@@ -87,6 +87,11 @@ export class NotasPage implements OnInit {
     }
   }
 
+  volver(){
+    this.navCtrl.navigateRoot('menu/inicio');
+    //this.navCtrl.navigateRoot('menu/diplomado/'+this.code);
+  }
+
   getRecords() {
     let note = []
     for (let i = 1; 8 > i; i++) {

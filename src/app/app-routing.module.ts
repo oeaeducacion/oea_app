@@ -36,6 +36,10 @@ const routes: Routes = [
     path: 'modal',
     loadChildren: () => import('./shared/modal/modal.module').then( m => m.ModalPageModule)
   },
+  {
+    path: 'loading',
+    loadChildren: () => import('./shared/loading/loading.module').then( m => m.LoadingPageModule)
+  },
 ];
 
 @NgModule({

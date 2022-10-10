@@ -119,6 +119,11 @@ export class PagosPage implements OnInit {
     this.listaccordion()
   }
 
+  volver(){
+    this.navCtrl.navigateRoot('menu/inicio');
+    //this.navCtrl.navigateRoot('menu/diplomado/'+this.code);
+  }
+
   listDiplomado() {
     this.Service.getFinancial(this.token).subscribe(data => {
       let monto:number = 0

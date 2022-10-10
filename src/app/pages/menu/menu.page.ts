@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, IonModal, NavController} from '@ionic/angular';
+import {AlertController, IonModal, NavController, ToastController} from '@ionic/angular';
 import {initioService} from "../inicio/service/initio.service";
 import {MenuService} from "./service/menu.service";
 
@@ -45,8 +45,9 @@ export class MenuPage implements OnInit {
   link:any
   token = localStorage.getItem('token');
   tipo:any
+  clase:any
 
-  constructor(public alertController: AlertController,
+  constructor(public alertController: AlertController,  public toastr: ToastController,
     public navCtrl: NavController, public service: MenuService,) { }
 
   ngOnInit() {
@@ -56,12 +57,12 @@ export class MenuPage implements OnInit {
   listClase(){
     this.service.getClaseLive(this.token).subscribe(resp => {
       if (resp['success']==true){
-        this.link = resp['link_clase'];
+        this.clase=resp['data']
+        this.link = resp['data']['url'];
       }
       else {
         this.link = null;
       }
-      console.log(this.link);
     });
   }
 
@@ -79,6 +80,7 @@ export class MenuPage implements OnInit {
           text: 'Si',
           handler: () => {
             window.open(this.link, '_blank')
+            this.checkAsistencia()
           }
         }
       ]
@@ -86,30 +88,23 @@ export class MenuPage implements OnInit {
     await alert.present();
   }
 
-  /*listCourses() {
-    this.service.getAllCoursesbyUser(this.token).subscribe(resp => {
-      if (resp){
-        let dip=[];
-        resp['courses'].forEach(i=>{
-          var splitted = i.course.courses_name.split(" ");
-          var name = i.course.courses_name.split(" ");
-          splitted.splice(0,3);
-          name.splice(0,2);
-          var primero = name.toString().charAt(0)
-          var cadena= splitted.toString();
-          let nueva = 'D'+primero+': '+cadena.replace(/_|#|-|@|<>|,/g, " ")
-          dip.push({
-            'courses_name': nueva,
-            'courses_code': i.course.courses_code,
-            'detail': i.course.detail,
-            'is_active': i.is_active
-          })
-        })
-        this.courses = dip;
+  checkAsistencia(){
+    let body = {
+      "course_code": this.clase.diplomado_code,
+      "modulo_id": this.clase.modulo_id,
+      "diplomadoclase_id": this.clase.clase_id,
+    };
+    this.service.marcarAsistencia(this.token, body).subscribe(async resp => {
+      if (resp['success'] === true) {
+        const toast = await this.toastr.create({
+          message: 'Check !',
+          duration: 1000,
+          color: "success"
+        });
+        toast.present();
       }
-      console.log(this.courses);
     });
-  }*/
+  }
 
   cambiarIndiceSeleccionado(i){
     this.indiceSeleccionado = i;

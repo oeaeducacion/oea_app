@@ -7,15 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './ingresar/login.page';
+import {LoadingPageModule} from "../../shared/loading/loading.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    LoginPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        LoginPageRoutingModule,
+        LoadingPageModule
+    ],
   declarations: [LoginPage]
 })
 export class LoginPageModule {}

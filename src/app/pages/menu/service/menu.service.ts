@@ -14,4 +14,9 @@ export class MenuService {
     const headers = new HttpHeaders().set('Authorization', 'Token '+ token);
     return this.httpClient.get(this.envUrl.urlAddress + 'alumno/listar-clases-en-vivo-estudiante/', {headers: headers})
   }
+
+  marcarAsistencia(token, data){
+    const headers = new HttpHeaders().set('Authorization', 'Token ' + token);
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'alumno/marcar-asistencia/',data, {headers: headers});
+  }
 }

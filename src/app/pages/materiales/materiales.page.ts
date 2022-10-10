@@ -43,6 +43,11 @@ export class MaterialesPage implements OnInit {
     this.getDetailDiplomado()
   }
 
+  volver(){
+    this.navCtrl.navigateRoot('menu/inicio');
+    //this.navCtrl.navigateRoot('menu/diplomado/'+this.code);
+  }
+
   getDetailDiplomado() {
     this.diplomadoDetailService.getDetailDiplomadoByCode(this.token, this.courseCode).subscribe(resp => {
       if (resp['success'] === true){

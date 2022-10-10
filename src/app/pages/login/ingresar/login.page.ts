@@ -5,7 +5,7 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
-import * as CryptoJS from 'crypto-js';
+//import * as CryptoJS from 'crypto-js';
 import { AlertController, NavController } from '@ionic/angular';
 import {LoginuserService} from '../service/loginuser.service';
 
@@ -24,6 +24,7 @@ export class LoginPage implements OnInit {
   public show: boolean = false;
   navigate: any;
   roles: any;
+  mostrar:boolean=false
   private secretrol = 'K56QSxGeKImwBRmiY';
 
   constructor(public fb: FormBuilder,
@@ -36,7 +37,11 @@ export class LoginPage implements OnInit {
     });
 
   }
+
   ngOnInit() {
+    setTimeout(() => {
+      this.mostrar=true
+    }, 2700);
     this.verifyIsLogout();
   }
 
@@ -45,7 +50,7 @@ export class LoginPage implements OnInit {
     if (tokenAuth != null){
       const rus = localStorage.getItem('rus');
       if(rus){
-        this.CryptoJSAesDecrypt(this.secretrol, rus);
+        //this.CryptoJSAesDecrypt(this.secretrol, rus);
         return this.navCtrl.navigateRoot('menu/inicio');
       }
     }
@@ -63,8 +68,8 @@ export class LoginPage implements OnInit {
       if (resp.success === true) {
         localStorage.setItem('token', resp.token);
         this.loginuserService.setLoggedIn(true);
-        let rol = this.CryptoJSAesEncrypt(this.secretrol, this.roles);
-        localStorage.setItem('rus',rol);
+        /*let rol = this.CryptoJSAesEncrypt(this.secretrol, this.roles);
+        localStorage.setItem('rus',rol);*/
         localStorage.setItem('ingresado', 'true');
         this.navCtrl.navigateRoot('menu/inicio');
       } else {
@@ -112,7 +117,7 @@ export class LoginPage implements OnInit {
     this.show = !this.show;
   }
 
-  CryptoJSAesEncrypt(passphrase, plaintext) {
+  /*CryptoJSAesEncrypt(passphrase, plaintext) {
 
     var salt = CryptoJS.lib.WordArray.random(256);
     var iv = CryptoJS.lib.WordArray.random(16);
@@ -138,7 +143,7 @@ export class LoginPage implements OnInit {
     var key = CryptoJS.PBKDF2(passphrase, salt, {hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
     var decrypted = CryptoJS.AES.decrypt(encrypted, key, {iv: iv});
     return decrypted.toString(CryptoJS.enc.Utf8);
-  }
+  }*/
 
   togglePasswordMode() {
     this.passwordTypeInput = this.passwordTypeInput === 'text' ? 'password' : 'text';

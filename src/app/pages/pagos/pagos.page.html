@@ -1,15 +1,9 @@
-<ion-toolbar>
-  <div class="main-header">
-    <!--<ion-buttons slot="start">
-      <ion-button (click)="volver()">
-        <ion-label style="color: white">Regresar</ion-label>
-      </ion-button>
-    </ion-buttons>-->
-    <ion-title>
-      <ion-label style="color: white; font-size: 6vw">PAGOS</ion-label>
-    </ion-title>
-  </div>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar>
+    <ion-icon (click)="volver()" slot="start" name="arrow-back-outline"></ion-icon>
+    <ion-title>PAGOS</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-grid>
@@ -68,7 +62,7 @@
       <ion-toolbar style="--background: #2E3541; color: white">
         <ion-buttons slot="start">
           <ion-button (click)="cancel()">
-            <ion-label style="color: white; font-size: 3vw">CANCEL</ion-label>
+            <ion-label style="color: white; font-size: 3vw">CANCELAR</ion-label>
           </ion-button>
         </ion-buttons>
         <ion-title>Pago Efectivo</ion-title>
@@ -129,12 +123,13 @@
     </ion-content>
   </ng-template>
 </ion-modal>
+
 <ion-modal id="modal" #modal [isOpen]="isModalPay" trigger="open-modal">
   <ng-template>
     <ion-content>
       <ion-toolbar style="--background: #2E3541; color: white">
         <ion-buttons slot="start">
-          <ion-button color="light" (click)="setOpenPay(false)">Close</ion-button>
+          <ion-button color="light" (click)="setOpenPay(false)">CERRAR</ion-button>
         </ion-buttons>
         <ion-title>Código de Pago</ion-title>
       </ion-toolbar>

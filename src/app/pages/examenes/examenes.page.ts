@@ -161,7 +161,8 @@ export class ExamenesPage implements OnInit {
   }
 
   volver(){
-    this.navCtrl.navigateRoot('menu/diplomado/'+this.code);
+    this.navCtrl.navigateRoot('menu/inicio');
+    //this.navCtrl.navigateRoot('menu/diplomado/'+this.code);
   }
 
   async showLoad() {

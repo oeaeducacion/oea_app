@@ -12,12 +12,12 @@ export const environment = {
     messagingSenderId: '446665961469',
     appId: '1:446665961469:web:ce853c9fc8e912d03ef394'
   },
-  //urlAddress: 'https://app.oea.edu.pe/api/'
+  urlAddress: 'https://app.oea.edu.pe/api/'
   /*JEINER*/
   // urlAddress: 'http://192.168.1.15:8000/api/'
   /*SUPER SERVER*/
   //urlAddress: 'http://127.0.0.1:8000/api/'
-  urlAddress: 'http://192.168.1.27:8000/api/'
+  //urlAddress: 'http://192.168.1.27:8000/api/'
   /*HANS*/
   // urlAddress: 'http://192.168.1.16:8000/api/'
   /*JORDAN*/
