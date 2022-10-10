@@ -71,4 +71,9 @@ export class initioService {
         const headers = new HttpHeaders().set('Authorization', 'Token '+ localStorage.getItem('token'));
         return this.httpClient.get(this.envUrl.urlAddress + 'alumno/listar-cursos/', {headers: headers});
     }
+
+    getInfoUser(token) {
+      const headers = new HttpHeaders().set('Authorization', 'Token '+ token);
+      return this.httpClient.get(this.envUrl.urlAddress + 'users/perfil-usuario/', {headers: headers});
+    }
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AlertController, IonModal, LoadingController, NavController, ToastController} from '@ionic/angular';
 import {initioService} from './service/initio.service';
-import {LocalNotifications} from "@awesome-cordova-plugins/local-notifications/ngx";
 
 @Component({
   selector: 'app-inicio',
@@ -20,6 +19,8 @@ export class InicioPage implements OnInit {
   isModalPay = false;
   tipo:any
 
+  profile:any
+
   features:any[]=[
     {id:1, name:'CALIFICACIONES', src: '../../../assets/image/nota.png'},
     {id:2, name:'PAGOS', src: '../../../assets/image/pago.png'},
@@ -28,11 +29,24 @@ export class InicioPage implements OnInit {
   ]
 
   constructor(public service: initioService, public navCtrl: NavController, public alertController: AlertController,
-              private localNotifications: LocalNotifications,  private loadingCtrl: LoadingController,) {
+             private loadingCtrl: LoadingController,) {
   }
 
   ngOnInit() {
     this.listCourses();
+    this.listInfoUser()
+  }
+
+  listInfoUser() {
+    this.service.getInfoUser(this.token).subscribe(data => {
+      if(Object.keys(data).length != 0) {
+        this.profile = data['user_profile']['detail_user'];
+      }
+    },error => {
+      if(error.status==401){
+        this.showExpired()
+      }
+    });
   }
 
   listCourses() {
@@ -97,15 +111,6 @@ export class InicioPage implements OnInit {
       ]
     });
     await alert.present();
-  }
-
-  noti(){
-    this.localNotifications.schedule({
-      text: 'Delayed ILocalNotification',
-      trigger: {at: new Date(new Date().getTime() + 3600)},
-      led: 'FF0000',
-      sound: null
-    });
   }
 
   navegar(event){
