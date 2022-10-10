@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-icon (click)="volver()" slot="start" name="arrow-back-outline"></ion-icon>
-    <ion-title>Módulo 1</ion-title>
+    <ion-title>DETALLE MÓDULO</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -18,7 +18,8 @@
               <br>
               <ion-text style="font-size: 4vw">Nombres:</ion-text>
               <br>
-              <ion-text style="font-size: 4vw; text-transform: uppercase">{{modules.link.profesor}}</ion-text>
+              <ion-text *ngIf="modules.link.profesor" style="font-size: 4vw; text-transform: uppercase">{{modules.link.profesor}}</ion-text>
+              <ion-text *ngIf="!modules.link.profesor" style="font-size: 4vw; text-transform: uppercase">Profesor no asignado</ion-text>
             </ion-col>
             <ion-col size="3">
               <ion-icon style="font-size: 15vw" name="person-circle-outline" color="primary"></ion-icon>
@@ -67,8 +68,9 @@
                     <ion-label style="font-size: 5vw">Nota Final</ion-label>
                   </ion-col>
                   <ion-col size="3">
-                    <ion-chip class="ion-text-center" style="background: #fd5000;color: white; font-weight: bold">
-                      <ion-text>{{courses.promedio_final}}</ion-text>
+                    <ion-chip class="ion-text-center" style="background: #fd5000;color: white; font-weight: bold" *ngIf="courses">
+                      <ion-text *ngIf="courses.promedio_final">{{courses.promedio_final}}</ion-text>
+                      <ion-text *ngIf="!courses.promedio_final">Sin Nota</ion-text>
                     </ion-chip>
                   </ion-col>
                 </ion-row>
